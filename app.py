@@ -11,9 +11,20 @@ CORS(app)
 """
 1. Home page 
 """
-@app.route('/login')
+@app.route('/intro')
 def page1():
     return render_template('login.html')
+@app.route('/logincheck' , methods=['POST'])
+def check():
+
+    status = helper.read_input(request)
+    if(status=="success"):
+         return render_template("homechef-dashboard.html")
+    else:
+        print("invalid entry")
+        return render_template('login.html')
+
+
 
 @app.route('/signup')
 def page2():
@@ -27,22 +38,22 @@ def page3():
 def page4():
     return render_template('homechef-dashboard.html')
 
+@app.route('/ourhome')
+def home():
+    return jsonify("Our Home is in Progress")
+@app.route('/master')
+def page5():
+    return jsonify("hi master")
 
 """
 1. method to verify the login credentials
 """
 @app.route('/test', methods=['POST'])
 def user_input():
-    if request.method == 'POST':
-       try:
-           helper.read_input(request)
-           print(" Hello Madammu")
-       except Exception as exception:
-           return jsonify(status=exception.args[0], code=500)
-    else:
-        return jsonify(status='Invalid request type', code=500)
-    #return redirect("https://34.84.229.189/console/")
-    return jsonify(status="Login Success", code=200)
+        status = helper.read_input(request)
+        return jsonify(result=status)
+
+
 
 
 if __name__ == "__main__":

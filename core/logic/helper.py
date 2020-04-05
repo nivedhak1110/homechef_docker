@@ -7,3 +7,9 @@ def read_input(request):
     password = request.form.get('password')
     print(username)
     print(password)
+    # login is success if usernme is master , password is madam
+    if username == "master" and password == "madam":
+        print ("Login is success")
+        return "success"
+    else:
+        return "failed"
