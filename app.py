@@ -8,21 +8,13 @@ from core.logic import helper
 app = Flask(__name__)
 CORS(app)
 
+
 """
 1. Home page 
 """
-@app.route('/intro')
+@app.route('/login')
 def page1():
     return render_template('login.html')
-@app.route('/logincheck' , methods=['POST'])
-def check():
-
-    status = helper.read_input(request)
-    if(status=="success"):
-         return render_template("homechef-dashboard.html")
-    else:
-        print("invalid entry")
-        return render_template('login.html')
 
 
 
@@ -34,16 +26,12 @@ def page2():
 def page3():
     return render_template('customer-dashboard.html')
 
-@app.route('/homechef')
+@app.route('/page4',methods=['POST'])
 def page4():
+    status = helper.disp_input(request)
     return render_template('homechef-dashboard.html')
 
-@app.route('/ourhome')
-def home():
-    return jsonify("Our Home is in Progress")
-@app.route('/master')
-def page5():
-    return jsonify("hi master")
+
 
 """
 1. method to verify the login credentials
@@ -52,6 +40,16 @@ def page5():
 def user_input():
         status = helper.read_input(request)
         return jsonify(result=status)
+#login check method
+@app.route('/logincheck' , methods=['POST'])
+def check():
+
+    status = helper.read_input(request)
+    if(status=="success"):
+         return render_template("homechef-dashboard.html")
+    else:
+        print("invalid entry")
+        return render_template('login.html')
 
 
 
