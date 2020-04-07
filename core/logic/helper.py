@@ -1,6 +1,6 @@
 
 """
-1 Method to read user input
+1 Method to read and verify user input
 """
 def read_input(request):
     username = request.form.get('uname')
@@ -13,3 +13,17 @@ def read_input(request):
         return "success"
     else:
         return "failed"
+    # method to read and disp user input
+def disp_input(request):
+    fname = request.form.get('fname')
+    lname = request.form.get('lname')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    address = request.form.get('add')
+    print(fname)
+    print(lname)
+    print(email)
+    print(password)
+    print(address)
+
+    return ("printed details")
