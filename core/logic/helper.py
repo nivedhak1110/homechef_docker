@@ -25,5 +25,12 @@ def disp_input(request):
     print(email)
     print(password)
     print(address)
+    fp=open("signupdetails.txt" ,"a")
+    fp.write(fname)
+    fp.write(lname)
+    fp.write(email)
+    fp.write(password)
+    fp.write(address)
+    fp.close()
 
     return ("printed details")
