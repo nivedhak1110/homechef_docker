@@ -1,13 +1,11 @@
-
-from flask import Flask, jsonify, send_file, render_template, redirect
+from flask import Flask, jsonify, render_template
 from flask import request
+#from core.logic import helper
 from flask_cors import CORS
-
-from core.logic import helper
+import helper
 
 app = Flask(__name__)
 CORS(app)
-
 
 """
 1. Home page 
@@ -26,10 +24,14 @@ def page2():
 def page3():
     return render_template('customer-dashboard.html')
 
-@app.route('/page4',methods=['POST'])
-def page4():
-    status = helper.disp_input(request)
-    return render_template('homechef-dashboard.html')
+@app.route('/save',methods=['POST'])
+def save():
+    #status = helper.disp(request)
+    status = helper.get_input(request)
+    if(status == "success"):
+        return render_template('login.html')
+    else:
+        return jsonify(status='Failed to save the details', code=400)
 
 
 
@@ -40,19 +42,18 @@ def page4():
 def user_input():
         status = helper.read_input(request)
         return jsonify(result=status)
+
 #login check method
-@app.route('/logincheck' , methods=['POST'])
-def check():
-
+@app.route('/login_verify' , methods=['POST'])
+def login_verify():
     status = helper.read_input(request)
-    if(status=="success"):
-         return render_template("homechef-dashboard.html")
+    if (status == "success"):
+        return render_template('homechef-dashboard.html')
     else:
-        print("invalid entry")
-        return render_template('login.html')
-
+        return jsonify(status='Failed to login , Please check uname,pwd', code=400)
 
 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
+
