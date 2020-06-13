@@ -1,0 +1,8 @@
+Only commands
+
+docker build --network=host  -t homechef .
+docker image ls
+docker run -p 5000:5000 --name myhomechef  homechef
+docker ps
+docker stop myhomechef
+docker rm myhomechef

@@ -1,56 +1,54 @@
 from flask import Flask, jsonify, render_template
 from flask import request
-#from core.logic import helper
 from flask_cors import CORS
-import helper
+from core.logic import helper_nodb
 
 app = Flask(__name__)
 CORS(app)
 
-"""
-1. Home page 
-"""
-@app.route('/login')
-def page1():
-    return render_template('login.html')
 
 
+"""
+1. SignUP page
+"""
 
 @app.route('/signup')
-def page2():
+def signup():
     return render_template('signup.html')
 
-@app.route('/customer')
-def page3():
-    return render_template('customer-dashboard.html')
+"""
+2. Saving signup details
+"""
 
 @app.route('/save',methods=['POST'])
 def save():
-    #status = helper.disp(request)
-    status = helper.get_input(request)
+    status = helper_nodb.save_details(request)
     if(status == "success"):
         return render_template('login.html')
     else:
-        return jsonify(status='Failed to save the details', code=400)
-
-
+        return jsonify(status='Failed to save the details, try Signup Again', code=400)
 
 """
-1. method to verify the login credentials
+3. Login  page
 """
-@app.route('/test', methods=['POST'])
-def user_input():
-        status = helper.read_input(request)
-        return jsonify(result=status)
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+"""
+4. Validate the Login credentials 
+"""
 
 #login check method
-@app.route('/login_verify' , methods=['POST'])
-def login_verify():
-    status = helper.read_input(request)
+@app.route('/logincheck' , methods=['POST'])
+def logincheck():
+    status = helper_nodb.check_credentials(request)
     if (status == "success"):
         return render_template('homechef-dashboard.html')
     else:
-        return jsonify(status='Failed to login , Please check uname,pwd', code=400)
+        return jsonify(status='Invalid credentials, Failed to login , Please try again', code=400)
+
 
 
 

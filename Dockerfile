@@ -1,20 +1,15 @@
+# alpine OS with python installed
 FROM python:3.7-alpine
 
+# Copy the current directory contents into the container at /app
+#ADD . /app
+RUN pip install --upgrade pip
 
-RUN apk add \
-    git \
-    wget \
-    unzip \
-    tar
 
 WORKDIR /app
-
 # Copy the current directory contents into the container at /app
-ADD . /app
-
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
