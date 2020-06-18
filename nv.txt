@@ -12,5 +12,5 @@
 
 	my windows 10 home pc --> lower version
 	so,docker tool box was only suitable.
-	earlier, virtualization was disable in my pc
+	earlier, virtualization was disabled in my pc
 	we had to enable virtualiztion.
