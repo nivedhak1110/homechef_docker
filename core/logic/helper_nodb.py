@@ -11,6 +11,12 @@ def check_credentials(request):
     if ("sdkarthikk@gmail.com" == email_id and "1234" == passwd):
         print("Login Succes !!", flush=True)
         return "success"
+    elif("nv@gmail.com" == email_id and "nv" == passwd):
+        print("Login Succes !!", flush=True)
+        return "success"
+        
+        
+        
     else:
        print("Invalid credentials, Login Failed", flush=True)
        return "failed"
