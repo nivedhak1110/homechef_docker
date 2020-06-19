@@ -7,10 +7,10 @@ This File helps to understand receiving the inputs from the HTML page
 def check_credentials(request):
     email_id = request.form.get('uname')
     passwd = request.form.get('password')
-
-    if( (("sdkarthikk@gmail.com" == email_id)  and  ("1234" == passwd) ) or ( ("nv@gmail.com" == email_id) and ("nv" == passwd )) ):
-       print("Login Succes !!", flush=True)
-       return "success"
+    
+    if ("sdkarthikk@gmail.com" == email_id and "1234" == passwd):
+        print("Login Succes !!", flush=True)
+        return "success"
     else:
        print("Invalid credentials, Login Failed", flush=True)
        return "failed"
