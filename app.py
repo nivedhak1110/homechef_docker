@@ -14,7 +14,7 @@ CORS(app)
 
 @app.route('/signup')
 def signup():
-    return render_template('signup.html')
+    return render_template('signup_design1.html')
 
 """
 2. Saving signup details
@@ -24,7 +24,7 @@ def signup():
 def save():
     status = helper_nodb.save_details(request)
     if(status == "success"):
-        return render_template('login.html')
+        return render_template('login_design1.html')
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
 
@@ -34,7 +34,7 @@ def save():
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('login_design1.html')
 
 """
 4. Validate the Login credentials 
