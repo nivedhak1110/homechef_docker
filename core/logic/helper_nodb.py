@@ -5,7 +5,7 @@ This File helps to understand receiving the inputs from the HTML page
 
 # Method to read and verify user login credentials
 def check_credentials(request):
-    email_id = request.form.get('uname')
+    email_id = request.form.get('ID')
     passwd = request.form.get('password')
     
     if ("sdkarthikk@gmail.com" == email_id and "1234" == passwd):
