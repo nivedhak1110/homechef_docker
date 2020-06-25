@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template
 from flask import request
 from flask_cors import CORS
 from core.logic import helper_nodb
+from core.logic import helper
 
 app = Flask(__name__)
 CORS(app)
@@ -54,4 +55,4 @@ def logincheck():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
-
+    helper.create_database()

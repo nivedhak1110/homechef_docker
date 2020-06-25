@@ -1,11 +1,45 @@
 import mysql.connector
+from mysql.connector import Error
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="",
-    database="signup"
-)
+
+try:
+    mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        #database="signup"
+    )
+except Error as e:
+    print("Error while connecting to MySQL", e)
+
+
+# method to create database if not exist
+def create_database():
+
+    try:
+        mycursor = mydb.cursor()
+        mycursor.execute("SHOW DATABASES")
+        databases = mycursor.fetchall()
+        db_create = True
+        for database in databases:
+            signup_db = "{0}".format(database[0])
+            print("DB:")
+            print(signup_db, flush=True)
+            if (signup_db == "signup"):
+                print("Signup Database already created !",flush=True)
+                db_create = False
+                break
+        if (db_create):
+            mycursor.execute("CREATE DATABASE signup")
+            print("Signup Database created !",flush=True)
+    except Error as e:
+        print("Error while creating database", e)
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+            mydb.close()
+            print("MySQL connection is closed")
+
 
 
 def check(request):
@@ -28,9 +62,6 @@ def read_input(request):
     #status = "success"
     status =  login_verify(email_id, passwd)
     return status
- """  except Exception as exception:
-        print("Error ")
-        print(exception.args[0])"""
 
 
 # verify login details
