@@ -19,12 +19,19 @@ def create_database():
     try:
         mycursor = mydb.cursor()
         mycursor.execute("SHOW DATABASES")
-        databases = mycursor.fetchall()
+        peria_dappa = mycursor.fetchall()
+        print("Inside databases (peria dappa) ")
+        print(peria_dappa, flush=True)
         db_create = True
-        for database in databases:
-            signup_db = "{0}".format(database[0])
-            print("DB:")
+        for china_dappa in peria_dappa:
+
+            print("inside database (chinna dappa )")
+            print(china_dappa, flush=True)
+
+            signup_db = "{0}".format(china_dappa[0])
+            print("Fetched only 0 index of chinna_dappa")
             print(signup_db, flush=True)
+
             if (signup_db == "signup"):
                 print("Signup Database already created !",flush=True)
                 db_create = False
