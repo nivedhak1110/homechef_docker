@@ -11,12 +11,6 @@ try:
 
 except Error as e:
     print("Error while connecting to MySQL", e)
-
-finally:
-        if (mydb.is_connected()):
-            mycursor.close()
-            mydb.close()
-            print("MySQL connection is closed")
             
 # method to create database if not exist
 def create_database():
