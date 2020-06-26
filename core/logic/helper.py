@@ -48,8 +48,7 @@ def create_table():
         mydb = mysql.connector.connect(
         host="mysql",
         user="root",
-        passwd="mypassword"
-        database="signup" )
+        passwd="mypassword" )
             
         
         mycursor = mydb.cursor()
@@ -105,7 +104,7 @@ def read_input(request):
         host="mysql",
         user="root",
         passwd="mypassword"
-        database="signup" )
+         )
         
         
 
@@ -138,6 +137,7 @@ def read_input(request):
 def login_verify(email_id, passwd):
     try:
         mycursor = mydb.cursor()
+        mycursor.execute("USE signup")
         sql = "select password from signup where email= '" + email_id + "'"
         mycursor.execute(sql)
         myresult = str(mycursor.fetchone()[0])
@@ -160,6 +160,7 @@ def print_all():
     try:
         print("Printing all DB data")
         mycursor = mydb.cursor()
+        mycursor.execute("USE signup")
         mycursor.execute("SELECT * FROM signup")
         myresult = mycursor.fetchall()
         mycursor.close()
@@ -179,7 +180,7 @@ def get_input(request):
         host="mysql",
         user="root",
         passwd="mypassword"
-        database="signup" )
+         )
         
         fname = request.form.get('fname')
         lname = request.form.get('lname')
@@ -200,6 +201,7 @@ def get_input(request):
 def signup_insert(fname, lname, email, password, address):
     try:
         mycursor = mydb.cursor()
+        mycursor.execute("USE signup")
         sql = "INSERT INTO signup VALUES(%s,%s,%s,%s,%s)"
         val = (fname, lname, email, password, address)
         mycursor.execute(sql, val)
