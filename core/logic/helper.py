@@ -12,7 +12,7 @@ try:
 except Error as e:
     print("Error while connecting to MySQL", e)
 
- finally:
+finally:
         if (mydb.is_connected()):
             mycursor.close()
             mydb.close()
