@@ -15,6 +15,7 @@ except Error as e:
 # method to create database if not exist
 def create_database():
     try:
+        
         mycursor = mydb.cursor()
         mycursor.execute("SHOW DATABASES")
         databases = mycursor.fetchall()
@@ -44,6 +45,13 @@ def create_database():
 #  method to create signup table if not exist
 def create_table():
     try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        database="signup" )
+            
+        
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         mycursor.execute("SHOW TABLES")
@@ -93,6 +101,13 @@ def check(request):
 
 def read_input(request):
     try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        database="signup" )
+        
+        
 
         print("Inside readInput")
         email_id = request.form.get('ID')
@@ -104,6 +119,12 @@ def read_input(request):
         return status
     except Error as e:
         print("Error while reading input ", e)
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+            mydb.close()
+            print("MySQL connection is closed")
+    
 
 
 """  except Exception as exception:
@@ -153,7 +174,13 @@ def print_all():
 
 
 def get_input(request):
-    try:
+    try: 
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        database="signup" )
+        
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         email = request.form.get('email')
@@ -163,8 +190,12 @@ def get_input(request):
         return "success"
     except Error as e:
         print("Error while reading input ", e)
-
-
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+            mydb.close()
+            print("MySQL connection is closed")
+    
 # save user signup  details in database
 def signup_insert(fname, lname, email, password, address):
     try:
