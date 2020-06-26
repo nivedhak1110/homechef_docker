@@ -144,7 +144,6 @@ def login_verify(email_id, passwd):
         print(myresult)
         if (passwd == myresult):
             print("login success")
-            mycursor.close()
             mydb.commit()
             print_all()
             return "success"
@@ -163,7 +162,7 @@ def print_all():
         mycursor.execute("USE signup")
         mycursor.execute("SELECT * FROM signup")
         myresult = mycursor.fetchall()
-        mycursor.close()
+        
 
         for x in myresult:
             print(x)
@@ -205,7 +204,6 @@ def signup_insert(fname, lname, email, password, address):
         sql = "INSERT INTO signup VALUES(%s,%s,%s,%s,%s)"
         val = (fname, lname, email, password, address)
         mycursor.execute(sql, val)
-        mycursor.close()
         mydb.commit()
         print_all()
 
