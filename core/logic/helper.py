@@ -3,9 +3,10 @@ from mysql.connector import Error
 
 try:
     mydb = mysql.connector.connect(
-        host="localhost",
+        host="mysql",
         user="root",
-        passwd="",
+        passwd="mypassword"
+        #database="signup"
     )
 
     # database="signup"
