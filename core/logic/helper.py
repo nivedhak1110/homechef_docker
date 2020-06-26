@@ -46,6 +46,7 @@ def create_database():
 def create_table():
     try:
         mycursor = mydb.cursor()
+        mycursor.execute("USE signup")
         mycursor.execute("SHOW TABLES")
         tables = mycursor.fetchall()
 
