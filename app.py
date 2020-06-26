@@ -23,7 +23,9 @@ def signup():
 
 @app.route('/save',methods=['POST'])
 def save():
-    status = helper_nodb.save_details(request)
+    helper.create_database()
+    helper.create_table()
+    status = helper.get_input(request)
     if(status == "success"):
         return render_template('login_design1.html')
     else:
@@ -44,7 +46,7 @@ def login():
 #login check method
 @app.route('/logincheck' , methods=['POST'])
 def logincheck():
-    status = helper_nodb.check_credentials(request)
+    status = helper.read_input(request)
     if (status == "success"):
         return render_template('homechef-dashboard.html')
     else:
@@ -55,4 +57,4 @@ def logincheck():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
-    helper.create_database()
+
