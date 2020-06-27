@@ -35,11 +35,7 @@ def create_database():
             print("Signup Database created !", flush=True)
     except Error as e:
         print("Error while creating database", e) 
-    finally:
-        if (mydb.is_connected()):
-            mycursor.close()
-            mydb.close()
-            print("MySQL connection is closed")
+    
     
         
 #  method to create signup table if not exist
@@ -71,19 +67,7 @@ def create_table():
             print("Signup table  created !", flush=True)
     except Error as e:
         print("Error while creating table ", e)
-    finally:
-        if (mydb.is_connected()):
-            mycursor.close()
-            mydb.close()
-            print("MySQL connection is closed")
     
-    
-    
-
-
-
-
-
 
 
 """
