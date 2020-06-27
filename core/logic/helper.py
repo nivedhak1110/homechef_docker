@@ -118,11 +118,7 @@ def read_input(request):
         return status
     except Error as e:
         print("Error while reading input ", e)
-    finally:
-        if (mydb.is_connected()):
-            mycursor.close()
-            mydb.close()
-            print("MySQL connection is closed")
+    
     
 
 
@@ -136,6 +132,12 @@ def read_input(request):
 
 def login_verify(email_id, passwd):
     try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        #database="signup"
+    )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         sql = "select password from signup where email= '" + email_id + "'"
@@ -157,6 +159,13 @@ def login_verify(email_id, passwd):
 # print all database details
 def print_all():
     try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        #database="signup"
+    )
+        
         print("Printing all DB data")
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
@@ -190,15 +199,17 @@ def get_input(request):
         return "success"
     except Error as e:
         print("Error while reading input ", e)
-    finally:
-        if (mydb.is_connected()):
-            mycursor.close()
-            mydb.close()
-            print("MySQL connection is closed")
+    
     
 # save user signup  details in database
 def signup_insert(fname, lname, email, password, address):
     try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+        #database="signup"
+    )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         sql = "INSERT INTO signup VALUES(%s,%s,%s,%s,%s)"
