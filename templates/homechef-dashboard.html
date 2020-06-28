@@ -2,23 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Homechef Dashboard</title>
+    <title> homechef </title>
+    <style type="text/css">
+    body {
+        background:url(https://previews.123rf.com/images/vadimgozhda/vadimgozhda1805/vadimgozhda180500258/100725583-beautiful-young-woman-in-chef-hat-is-mixing-batter-looking-at-camera-and-smiling-while-baking-in-kit.jpg);
+
+        background-size: cover;
+
+        font-family: 'Ubuntu', sans-serif;
+
+    	}
+    .main {
+        background-color: #FFFFFF;
+        width: 400px;
+        height: 600px;
+        margin: 7em auto;
+        border-radius: 1.5em;
+        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    	}
+
+    .Details {
+    width: 76%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
+    }
+
+
+
+
+
+    .ID:focus {
+        border: 2px solid rgba(0, 0, 0, 0.18) !important;
+
+    	}
+
+
+   .homechef {
+        padding-top: 40px;
+        color: #DC143C;
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold;
+        font-size: 23px;
+    	}
+
+
+
+     .submit {
+      cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+        background: linear-gradient(to right, #FFA07A, #DC143C);
+        border: 0;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        margin-left: 35%;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+     @media (max-width: 600px) {
+
+        .main {
+            border-radius: 0px;
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<h2> HomeChef Dashboard</h2>
-
 <form>
-<label>Enter your dish:</label><br>
-<input type="text" id="dish" name="dish"><br><br>
-<label>Enter the cost:</label><br>
-<input type="text" id="cost" name="cost"><br><br>
-<label>Discount:</label><br>
-<input type="number" id="dis" name="dis" ><br><br>
-<label> Time up to which orders can be placed:</label><br>
-<input type="time"><br><br>
-<button type="button">add dish+</button>
-</form>
+	<div class="main">
+        <p class="homechef" align="center" >Welcome HomeChef!</p>
 
+	<input class="Details" type="text" id="chef" name="chef" placeholder="chef name"  required>
+
+	<input class="Details" type="date" id="date" name="date" placeholder="Date"  required>
+
+	<input class="Details" type="text" id="dish" name="dish" placeholder="Dish"  required >
+
+	<input class="Details" type="number" id="cost" name="cost" placeholder="Cost" required  >
+
+	<input class="Details" type="number" id="available" name="available" placeholder="Availability"  required>
+
+	<input class="Details" type="time" id="time" name="time" placeholder="Availabile time"  required>
+	<button class="submit"   type="submit" formaction="/" formmethod="get"> Add dish+ </button>
+
+  	</div>
+
+
+</form>
 </body>
+
 </html>
