@@ -47,10 +47,14 @@ def login():
 @app.route('/logincheck' , methods=['POST'])
 def logincheck():
     status = helper.read_input(request)
-    if (status == "success"):
+    if (status == "homechef"):
         return render_template('homechef-dashboard.html')
+    elif(status == "customer"):
+        return render_template('customer-dashboard.html')
     else:
         return jsonify(status='Invalid credentials, Failed to login , Please try again', code=400)
+
+
 
 
 
