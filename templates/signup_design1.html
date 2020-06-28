@@ -14,7 +14,7 @@
     .main {
         background-color: #FFFFFF;
         width: 400px;
-        height: 600px;
+        height: 700px;
         margin: 7em auto;
         border-radius: 1.5em;
         box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
@@ -98,16 +98,16 @@
   <div class="main">
   <p class="details" align="center">Register Your details</p>
 
-  <input  class="UD" type="text" id="fname" name="fname" placeholder="First name" >
+  <input  class="UD" type="text" id="fname" name="fname" placeholder="First name" required >
 
-  <input  class="UD" type="text" id="lname" name="lname" placeholder="Last name" >
-  <input class="UD" type="text" id="email" name="email" placeholder="Email Id"  >
+  <input  class="UD" type="text" id="lname" name="lname" placeholder="Last name" required >
+  <input class="UD" type="text" id="email" name="email" placeholder="Email Id" required >
 
-  <input class="UD" type="password" id="password" name="password" placeholder="Password" ><br>
-
-
-  
-  <input class="UD" type="text" id="add" name="add" placeholder="Address">
+  <input class="UD" type="password" id="password" name="password" placeholder="Password" required ><br>
+      
+  <input class="UD" type="text" id="category" name="category" placeholder="customer/homechef?" required ><br>
+      
+  <input class="UD" type="text" id="add" name="add" placeholder="Address" required>
           <input class="submit" type="reset"><br><br>
   <button  class="submit" type="submit" formaction="/save" formmethod="post">Signup</button>
 
