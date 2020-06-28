@@ -63,22 +63,13 @@ def create_table():
                 table_create = False
                 break
         if ( table_create ):
-            mycursor.execute("CREATE TABLE signup (fname VARCHAR(20), lname VARCHAR(20) ,  email VARCHAR(20), password VARCHAR(20), address VARCHAR(20))")
+            mycursor.execute("CREATE TABLE signup (fname VARCHAR(20), lname VARCHAR(20) ,  email VARCHAR(20), password VARCHAR(20), category VARCHAR(20) , address VARCHAR(20))")
             print("Signup table  created !", flush=True)
     except Error as e:
         print("Error while creating table ", e)
     
 
 
-"""
-def check(request):
-    print("Inside check")
-    #email_id = ''
-    email_id = request.form.get('uname')
-    passwd = request.form.get('password')
-    print(email_id)
-    print(passwd)
-    return "success" """
 
 # Method to read login details
 
@@ -99,16 +90,13 @@ def read_input(request):
         print(passwd)
         #status = "success"
         status =  login_verify(email_id, passwd)
+        print(status)
         return status
     except Error as e:
         print("Error while reading input ", e)
     
     
 
-
-"""  except Exception as exception:
-        print("Error ")
-        print(exception.args[0])"""
 
 
 # verify login details
@@ -124,20 +112,36 @@ def login_verify(email_id, passwd):
     )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
-        sql = "select password from signup where email= '" + email_id + "'"
+        sql = "select password   from signup where email= '" + email_id + "'"
         mycursor.execute(sql)
-        myresult = str(mycursor.fetchone()[0])
-        print(myresult)
-        if (passwd == myresult):
+        myresult1 = str(mycursor.fetchone()[0])
+        print(myresult1)
+        sql = "select category   from signup where email= '" + email_id + "'"
+        mycursor.execute(sql)
+        myresult2 = str(mycursor.fetchone()[0])
+        print(myresult2)
+
+
+
+        if (passwd == myresult1  ):
             print("login success")
+        try:
+            if(  myresult2 ==  "customer"):
+                return "customer"
+            else:
+                return "homechef"
+        except Error as e:
+            print("Error while checking credentials ", e)
+
             mydb.commit()
             print_all()
-            return "success"
+
         else:
             print("login failed")
             return "failed"
     except Error as e:
         print("Error while verifying details ", e)
+
 
 
 # print all database details
@@ -178,15 +182,16 @@ def get_input(request):
         lname = request.form.get('lname')
         email = request.form.get('email')
         password = request.form.get('password')
+        category = request.form.get('category')
         address = request.form.get('add')
-        signup_insert(fname, lname, email, password, address)
+        signup_insert(fname, lname, email, password, category , address)
         return "success"
     except Error as e:
-        print("Error while reading input ", e)
+        print("Error while reading input ", e) ,
     
     
 # save user signup  details in database
-def signup_insert(fname, lname, email, password, address):
+def signup_insert(fname, lname, email, password, category, address):
     try:
         mydb = mysql.connector.connect(
         host="mysql",
@@ -196,8 +201,8 @@ def signup_insert(fname, lname, email, password, address):
     )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
-        sql = "INSERT INTO signup VALUES(%s,%s,%s,%s,%s)"
-        val = (fname, lname, email, password, address)
+        sql = "INSERT INTO signup VALUES(%s,%s,%s,%s,%s,%s)"
+        val = (fname, lname, email, password, category, address)
         mycursor.execute(sql, val)
         mydb.commit()
         print_all()
