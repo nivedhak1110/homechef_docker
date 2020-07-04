@@ -50,9 +50,38 @@ def logincheck():
     if (status == "homechef"):
         return render_template('homechef-dashboard.html')
     elif(status == "customer"):
-        return render_template('customer-dashboard.html')
+        status1 =helper.print_data_customerDB(request)
+        print(status1)
+        return render_template("customer-dashboard.html" , value = status1)
+
+
     else:
         return jsonify(status='Invalid credentials, Failed to login , Please try again', code=400)
+
+"""
+5. homechef   page
+"""
+# return Homechef dashboard to add more dishes
+
+@app.route('/add_dish' , methods=['get'])
+def homechef():
+    return render_template('homechef-dashboard.html')
+"""
+6. save homechef entries  page
+"""
+@app.route('/homechef_save',methods=['post'])
+def homechef_save():
+
+    helper.create_database_homechef()
+    helper.create_table_homechef()
+    status = helper.get_input_homechef(request)
+
+
+    if (status == "success"):
+        return render_template('thankyou.html')
+    else:
+        return jsonify(status='Failed to save the details, try Signup Again', code=400)
+
 
 
 
