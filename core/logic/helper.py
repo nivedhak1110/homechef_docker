@@ -208,39 +208,155 @@ def signup_insert(fname, lname, email, password, category, address):
         print_all()
 
     except Error as e:
-         print("Error while creating table ", e)
+         print("Error while inserting into  table ", e)
 
-"""
-def disp(request):
+            
+# create   homechef database,create  homechef table
 
-    data={
-    "college":
-    {
-    "name":"ngpit", "depts":
-    {
+def create_database_homechef():
+    try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+         )
+        mycursor = mydb.cursor()
+        mycursor.execute("SHOW DATABASES")
+        databases = mycursor.fetchall()
 
-    "cse":[
+        db_create = True
+        for database in databases:
+            homechef_db = "{0}".format(database[0])
 
-    {"name":"nive", "rollno":"18cs040"},
-    {"name":"priyu","rollno":"18cs046"}
-    ],
+            print(homechef_db, flush=True)
 
-    "IT":[
-    {"name":"mothika","rollno":"18IT036"},
-    {"name":"harini","rollno":"18IT053"}
-    ],
+            if (homechef_db == "homechef"):
+                print("Homechef Database already created !", flush=True)
+                db_create = False
+                break
+        if (db_create):
+            mycursor.execute("CREATE DATABASE homechef")
+            print("Homechef Database created !", flush=True)
+    except Error as e:
+        print("Error while creating database", e)
 
-    "ece":[
-    {"name":"miruthu","rollno":"18EC035"},
-    {"name":"yamuna","rollno":"18EC060"}
-    ]
+# create homechef table
+def create_table_homechef():
+    try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+         )
+        mycursor = mydb.cursor()
+        mycursor.execute("USE homechef")
+        mycursor.execute("SHOW TABLES")
+        tables = mycursor.fetchall()
 
-    }
-    }
-    }
-    with open("sample.json","a") as fp:
-        json.dump(data,fp)
+        table_create = True
+        for table in tables:
+            homechef_table = "{0}".format(table[0])
 
-return("printed details")"""
+            print(homechef_table, flush=True)
+
+            if (homechef_table == "homechef"):
+                print("Homechef table already created !", flush=True)
+                table_create = False
+                break
+        if (table_create):
+            mycursor.execute(
+                "CREATE TABLE homechef ( ID VARCHAR(20) NOT NULL PRIMARY KEY , chef_name VARCHAR(20), date VARCHAR(20) ,  dish VARCHAR(40), cost int , availability int , time varchar(20) , location VARCHAR(20))")
+            print("homechef table  created !", flush=True)
+
+    except Error as e:
+        print("Error while creating table ", e)
+
+# method to read  user input by homechef
+def get_input_homechef(request):
+    try:
+
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+         )
+        ID=  request.form.get('ID')
+        chef = request.form.get('chef')
+        date = request.form.get('date')
+        dish = request.form.get('dish')
+        cost = request.form.get('cost')
+        availability = request.form.get('available')
+        time = request.form.get('availtime')
+        location = request.form.get('location')
 
 
+        homechef_insert( ID, chef, date , dish, cost, availability, time , location)
+        return "success"
+    except Error as e:
+        print("Error while reading input ", e)
+
+
+# save  chef entries   in homechef database
+def homechef_insert(ID, chef, date , dish, cost, availability, time,location):
+    try:
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+         )
+        mycursor = mydb.cursor()
+        mycursor.execute("USE homechef")
+        sql = "INSERT INTO homechef VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+        val = (ID,chef, date , dish, cost, availability,time, location)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        print("insert into homechef database successful")
+        print_all_homechef()
+
+    except Error as e:
+        print("Error while inserting into table ", e)
+
+# print all homechef table details
+def print_all_homechef():
+    try:
+        
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+         )
+
+        print("Printing all homechef data")
+        mycursor = mydb.cursor()
+        mycursor.execute("USE homechef")
+        mycursor.execute("SELECT * FROM homechef")
+        myresult = mycursor.fetchall()
+
+        for x in myresult:
+            print(x)
+    except Error as e:
+        print("Error while printing homechef table  details ", e)
+
+
+# retrive datas from database and print in customer dashboard
+def print_data_customerDB(request):
+    try:
+
+        mydb = mysql.connector.connect(
+        host="mysql",
+        user="root",
+        passwd="mypassword"
+         )
+        mycursor = mydb.cursor()
+        mycursor.execute("USE homechef")
+        mycursor.execute("select * from homechef")
+        data = mycursor.fetchall() #data from database
+        print(data)
+        print(type(data))
+        for i  in range(len(data)):
+            print(data[0])
+        return data
+
+
+    except Error as e:
+        print("Error while printing homechef table  details on customer dashboard", e)
