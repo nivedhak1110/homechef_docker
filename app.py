@@ -83,8 +83,13 @@ def homechef_save():
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
 
 
+@app.route('/restclient')
+def restclient_test():
+    return render_template('restclient_js.html')
 
-
+@app.route('/test',methods=['get'])
+def test_get():
+    return jsonify(name='nv', age=16)
 
 
 
