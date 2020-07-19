@@ -1,26 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 $(document).ready(function(){
-  $("button").click(function(){
+
     $.getJSON("http://localhost:5000/test", function(result){
-      alert("Name" + result.name);
-      alert("age" + result.age)
-      $.each(result, function(i, field){
-        $("div").append(field + " ");
-      });
+
+           alert("Name" + result.name);
+           $.each(result, function(i, field){
+                $("#ID").append(field[0]);
+                $(".chef").clone().appendTo(".chef");
+        });
+
     });
-  });
+
 });
+
+
+
 </script>
+<style>
+   div.chef {
+  width: 150px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+
+div.container {
+  padding: 10px;
+}
+</style>
+
+
+
+
 </head>
 <body>
-
-<button>Get JSON data from REST server</button>
-
-<div></div>
-
+<center>
+<div  class="chef" align="center">
+    <img  src="https://www.pinclipart.com/picdir/middle/270-2703485_chef-clipart-hd-27302807-png-download.png" alt="chef" style="width:100%">
+    <div>
+	<p id = "ID"> </p>
+  </div>
+</div>
+</center>
 </body>
 </html>
