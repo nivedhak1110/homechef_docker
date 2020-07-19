@@ -358,7 +358,7 @@ def print_data_customerDB(request):
          )
         mycursor = mydb.cursor()
         mycursor.execute("USE homechef")
-        mycursor.execute("select * from homechef")
+        mycursor.execute("select ID from homechef")
         data = mycursor.fetchall() #data from database
         print(data)
         print(type(data))
