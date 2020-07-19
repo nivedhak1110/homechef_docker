@@ -89,7 +89,9 @@ def restclient_test():
 
 @app.route('/test',methods=['get'])
 def test_get():
-    return jsonify(name='nv', age=16)
+    list = helper.print_data_customerDB(request)
+
+    return jsonify( name = list )
 
 
 
