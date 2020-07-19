@@ -112,39 +112,48 @@ def login_verify(email_id, passwd):
     )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
-        sql = "select password   from signup where email= '" + email_id + "'"
+        sql= "select count(email)   from signup where email= '" + email_id + "'"
         mycursor.execute(sql)
-        myresult1 = str(mycursor.fetchone()[0])
-        print(myresult1)
+        count = mycursor.fetchone()
+        print(count[0])
+        if(count[0] == 1):
+            sql = "select password   from signup where email= '" + email_id + "'"
+            mycursor.execute(sql)
+            myresult1 = str(mycursor.fetchone()[0])
+            print(myresult1)
+
+        else:
+            print("the query doesnot return any value ")
+            return "failed"
+
         sql = "select category   from signup where email= '" + email_id + "'"
         mycursor.execute(sql)
         myresult2 = str(mycursor.fetchone()[0])
         print(myresult2)
 
-
-
-        if (passwd == myresult1  ):
-            print("login success")
         try:
-            if(  myresult2 ==  "customer"):
+            if (passwd == myresult1  and myresult2 == "customer"):
+                print("login success")
                 return "customer"
-            else:
+            elif(passwd == myresult1  and myresult2 == "homechef"):
+                print("login success")
                 return "homechef"
+            else:
+                print("login failed")
+                return "failed"
         except Error as e:
             print("Error while checking credentials ", e)
 
             mydb.commit()
             print_all()
 
-        else:
-            print("login failed")
-            return "failed"
+
+
     except Error as e:
         print("Error while verifying details ", e)
 
 
-
-# print all database details
+# print all signup details
 def print_all():
     try:
         mydb = mysql.connector.connect(
