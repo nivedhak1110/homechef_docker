@@ -13,7 +13,7 @@ except Error as e:
     print("Error while connecting to MySQL", e)
             
 # method to create database if not exist
-def create_database():
+def create_database_signup():
     try:
         
         mycursor = mydb.cursor()
@@ -39,7 +39,7 @@ def create_database():
     
         
 #  method to create signup table if not exist
-def create_table():
+def create_table_signup():
     try:
         mydb = mysql.connector.connect(
         host="mysql",
@@ -274,7 +274,7 @@ def create_table_homechef():
                 break
         if (table_create):
             mycursor.execute(
-                "CREATE TABLE homechef ( ID VARCHAR(20) NOT NULL PRIMARY KEY , chef_name VARCHAR(20), date VARCHAR(20) ,  dish VARCHAR(40), cost int , availability int , time varchar(20) , location VARCHAR(20))")
+                "CREATE TABLE homechef ( ID VARCHAR(20) NOT NULL PRIMARY KEY , chef_name VARCHAR(20), date VARCHAR(20) ,  dish VARCHAR(40), cost int , availability int  , location VARCHAR(20))")
             print("homechef table  created !", flush=True)
 
     except Error as e:
@@ -295,18 +295,17 @@ def get_input_homechef(request):
         dish = request.form.get('dish')
         cost = request.form.get('cost')
         availability = request.form.get('available')
-        time = request.form.get('availtime')
         location = request.form.get('location')
 
 
-        homechef_insert( ID, chef, date , dish, cost, availability, time , location)
+        homechef_insert( ID, chef, date , dish, cost, availability , location)
         return "success"
     except Error as e:
         print("Error while reading input ", e)
 
 
 # save  chef entries   in homechef database
-def homechef_insert(ID, chef, date , dish, cost, availability, time,location):
+def homechef_insert(ID, chef, date , dish, cost, availability , location):
     try:
         mydb = mysql.connector.connect(
         host="mysql",
@@ -315,8 +314,8 @@ def homechef_insert(ID, chef, date , dish, cost, availability, time,location):
          )
         mycursor = mydb.cursor()
         mycursor.execute("USE homechef")
-        sql = "INSERT INTO homechef VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-        val = (ID,chef, date , dish, cost, availability,time, location)
+        sql = "INSERT INTO homechef VALUES(%s,%s,%s,%s,%s,%s,%s)"
+        val = (ID,chef, date , dish, cost, availability , location)
         mycursor.execute(sql, val)
         mydb.commit()
         print("insert into homechef database successful")
@@ -347,25 +346,28 @@ def print_all_homechef():
         print("Error while printing homechef table  details ", e)
 
 
-# retrive datas from database and print in customer dashboard
-def print_data_customerDB(request):
+# retrive homechef ID from database and print in customer dashboard
+def print_homechef_ID(request):
     try:
 
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
+
         mycursor = mydb.cursor()
         mycursor.execute("USE homechef")
         mycursor.execute("select ID from homechef")
         data = mycursor.fetchall() #data from database
         print(data)
         print(type(data))
-        for i  in range(len(data)):
-            print(data[0])
         return data
 
 
     except Error as e:
         print("Error while printing homechef table  details on customer dashboard", e)
+
+
+
+
