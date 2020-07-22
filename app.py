@@ -23,14 +23,14 @@ def signup():
 
 @app.route('/save',methods=['POST'])
 def save():
-    helper.create_database()
-    helper.create_table()
+    helper.create_database_signup()
+    helper.create_table_signup()
     status = helper.get_input(request)
     if(status == "success"):
         return render_template('login_design1.html')
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
-
+    
 """
 3. Login  page
 """
@@ -47,12 +47,11 @@ def login():
 @app.route('/logincheck' , methods=['POST'])
 def logincheck():
     status = helper.read_input(request)
+    print(status)
     if (status == "homechef"):
         return render_template('homechef-dashboard.html')
     elif(status == "customer"):
-        status1 =helper.print_data_customerDB(request)
-        print(status1)
-        return render_template("customer-dashboard.html" , value = status1)
+        return render_template('customer_dashboard.html')
 
 
     else:
@@ -85,12 +84,12 @@ def homechef_save():
 
 @app.route('/restclient')
 def restclient_test():
-    return render_template('restclient_js.html')
+    return render_template('customer_dashboard.html')
 
 @app.route('/test',methods=['get'])
 def test_get():
-    list = helper.print_data_customerDB(request)
-
+    list = helper.print_homechef_ID(request)
+        
     return jsonify( name = list )
 
 
