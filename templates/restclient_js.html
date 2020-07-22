@@ -6,24 +6,34 @@
 <script>
 $(document).ready(function(){
 
-    $.getJSON("http://localhost:5000/test", function(result){
+                  $.getJSON("http://localhost:5000/test", function(result){
 
-           alert("Name" + result.name);
-           $.each(result, function(i, field){
-                $("#ID").append(field[0]);
-                $(".chef").clone().appendTo(".chef");
-        });
 
-    });
+                    var data = result.name;
+                    for (var i = 0; i < result.name.length ; i++) {
+                    var buttons = $('<button class="button">'+ data[i]  + '</button>' + '<br>'+ '<br>')
+                    buttons.appendTo('#ID');
+                    }
+
+
+                });
+
+
+
 
 });
 
-
-
 </script>
+
+
+
+
+
+
+
 <style>
    div.chef {
-  width: 150px;
+  width: 550px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
 }
@@ -31,6 +41,23 @@ $(document).ready(function(){
 div.container {
   padding: 10px;
 }
+
+ .button {
+        cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+        background: linear-gradient(to right, #FFA07A, #DC143C);
+        border: 0;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+        }
+
+
 </style>
 
 
@@ -39,12 +66,14 @@ div.container {
 </head>
 <body>
 <center>
-<div  class="chef" align="center">
-    <img  src="https://www.pinclipart.com/picdir/middle/270-2703485_chef-clipart-hd-27302807-png-download.png" alt="chef" style="width:100%">
-    <div>
-	<p id = "ID"> </p>
-  </div>
+
+<div  class="chef" id="chef" align="center">
+    <img  src="https://portcityfoodie.com/wp-content/uploads/2016/10/woman-eating-alone-2-848x342.jpg" alt="chef" style="width:100%">
+    <div class="container">
+        <p id="ID"></p>
+    </div>
 </div>
+
 </center>
 </body>
 </html>
