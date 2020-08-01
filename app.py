@@ -93,6 +93,19 @@ def test_get():
     return jsonify( name = list )
 
 
+# Method to get the homechef details
+@app.route("/get/homechef/<name>")
+def get_dish(name):
+        try:
+           #homechefname = name
+           print(name)
+           # get the dish details from DB and return
+           return jsonify(dishname='biriany', price="99", availability="9", chefID=name)
+        except Exception as exception:
+            return jsonify(status=exception.args[0], code=500)
+
+
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

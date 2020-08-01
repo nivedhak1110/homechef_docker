@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>
+    <script>
 $(document).ready(function(){
 
                   $.getJSON("http://localhost:5000/test", function(result){
-
-
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
-                    var buttons = $('<button class="button">'+ data[i]  + '</button>' + '<br>'+ '<br>')
+                    var buttons = $('<button class="button"  data-value='+ data[i] +' >'+ data[i]  + '</button>' + '<br>'+ '<br>')
                     buttons.appendTo('#ID');
                     }
 
+                    $('.button').click(function(e) {
+                    var name= $(this).data('value');
+	                alert("Chef ID "+ name);
+                    var url = "http://localhost:5000/get/homechef/"+ name
+                    alert(" Ger Dish URL" + url);
+
+                    $.getJSON(url, function(result){
+                       var details = "DishName " + result.dishname + " Price "+ result.price + " Availability "+ result.availability
+                       var chefname = result.chefID
+                       $("#ID").hide(1000);
+                       $(".chefName").append("ChefName "+ chefname + " ");
+                       $(".myDiv").append(details + " ");
+
+                       var ordername = "Order!"
+                       var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
+                       order.appendTo('#orderID');
+                         $('.order').click(function(e) {
+                           alert("Your Order placed !");
+                         });
+
+                    });
 
                 });
 
+                 });
 
 
 
 });
 
-</script>
 
 
 
+    </script>
 
 
-
-
-<style>
+    <style>
    div.chef {
   width: 550px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -58,21 +76,25 @@ div.container {
         }
 
 
-</style>
 
 
+    </style>
 
 
 </head>
 <body>
 <center>
 
-<div  class="chef" id="chef" align="center">
-    <img  src="https://portcityfoodie.com/wp-content/uploads/2016/10/woman-eating-alone-2-848x342.jpg" alt="chef" style="width:100%">
-    <div class="container">
-        <p id="ID"></p>
+    <div align="center" class="chef" id="chef">
+        <img alt="chef" src="https://portcityfoodie.com/wp-content/uploads/2016/10/woman-eating-alone-2-848x342.jpg"
+             style="width:100%">
+        <div class="container">
+            <p id="ID"></p>
+            <p id="orderID"></p>
+        </div>
+        <div class="chefName"></div>
+        <div class="myDiv"></div>
     </div>
-</div>
 
 </center>
 </body>
