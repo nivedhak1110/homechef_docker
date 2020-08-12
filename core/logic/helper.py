@@ -80,18 +80,20 @@ def read_input(request):
         user="root",
         passwd="mypassword"
          )
-        
-        
-
-        print("Inside readInput")
         email_id = request.form.get('ID')
-        passwd = request.form.get('password')
+        b = request.form.get('password')
+        hash2 = hashlib.md5(b.encode())
+        passwd = hash2.hexdigest()
+
         print(email_id)
         print(passwd)
-        #status = "success"
-        status =  login_verify(email_id, passwd)
+
+        # status = "success"
+        status = login_verify(email_id, passwd)
         print(status)
-        return status
+        
+
+        
     except Error as e:
         print("Error while reading input ", e)
     
@@ -119,7 +121,7 @@ def login_verify(email_id, passwd):
         if(count[0] == 1):
             sql = "select password   from signup where email= '" + email_id + "'"
             mycursor.execute(sql)
-            myresult1 = str(mycursor.fetchone()[0])
+            myresult1 = mycursor.fetchone()[0]
             print(myresult1)
 
         else:
@@ -128,7 +130,7 @@ def login_verify(email_id, passwd):
 
         sql = "select category   from signup where email= '" + email_id + "'"
         mycursor.execute(sql)
-        myresult2 = str(mycursor.fetchone()[0])
+        myresult2 = mycursor.fetchone()[0]
         print(myresult2)
 
         try:
@@ -190,7 +192,10 @@ def get_input(request):
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         email = request.form.get('email')
-        password = request.form.get('password')
+        a = request.form.get('password')
+        hash1 =  hashlib.md5(a.encode())
+        password = hash1.hexdigest()
+        print(password)
         category = request.form.get('category')
         address = request.form.get('add')
         signup_insert(fname, lname, email, password, category , address)
