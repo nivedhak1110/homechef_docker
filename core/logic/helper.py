@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-
+import hashlib
 try:
     mydb = mysql.connector.connect(
         host="mysql",
@@ -63,7 +63,7 @@ def create_table_signup():
                 table_create = False
                 break
         if ( table_create ):
-            mycursor.execute("CREATE TABLE signup (fname VARCHAR(20), lname VARCHAR(20) ,  email VARCHAR(20), password VARCHAR(20), category VARCHAR(20) , address VARCHAR(20))")
+            mycursor.execute("CREATE TABLE signup (fname VARCHAR(20), lname VARCHAR(20) ,  email VARCHAR(20), password TINYTEXT, category VARCHAR(20) , address VARCHAR(20))")
             print("Signup table  created !", flush=True)
     except Error as e:
         print("Error while creating table ", e)
@@ -346,7 +346,7 @@ def print_all_homechef():
         print("Error while printing homechef table  details ", e)
 
 
-# retrive homechef ID from database and print in customer dashboard
+# retrive homechef ID from database 
 def print_homechef_ID(request):
     try:
 
@@ -361,12 +361,73 @@ def print_homechef_ID(request):
         mycursor.execute("select ID from homechef")
         data = mycursor.fetchall() #data from database
         print(data)
-        print(type(data))
         return data
 
 
     except Error as e:
-        print("Error while printing homechef table  details on customer dashboard", e)
+        print("Error while printing homechef id", e)
+        
+# retrive dish details from the respective homechef table
+def dish_details(name):
+    try:
+
+        mydb = mysql.connector.connect(
+           host="mysql",
+           user="root",
+           passwd="mypassword"
+            )
+        mycursor = mydb.cursor()
+        mycursor.execute("USE homechef")
+        mycursor.execute("select dish,cost, availability from homechef where ID = '" + name + "' ")
+        dish_details = mycursor.fetchall()  # data from database
+        print(dish_details)
+
+
+        return dish_details
+
+    except Error as e:
+        print("Error while printing dish details", e)
+# place order
+
+def place_order(name):
+    try:
+
+        mydb = mysql.connector.connect(
+           host="mysql",
+           user="root",
+           passwd="mypassword"
+        )
+        mycursor = mydb.cursor(buffered=True)
+        mycursor.execute("USE homechef")
+        mycursor.execute("select  availability from homechef where ID = '" + name + "' ")
+        print("inside helper place order")
+        availability = mycursor.fetchone()[0]
+        print(availability)
+        current_availability = availability - 1
+        if(availability > 0):
+
+            sql = "update  homechef set availability = {availability}  where ID = '{name}' ".format (availability = current_availability , name= name)
+            #val = current_availability
+            print(sql)
+
+            mycursor.execute(sql)
+            print(current_availability)
+            print("database updated successfully")
+            mydb.commit()
+            return current_availability
+
+        else:
+            print("Else:" + current_availability)
+            return "sorry ! orders closed"
+
+
+
+    except Error as e:
+        print("Error while ordering ", e)
+
+
+
+        
 
 
 
