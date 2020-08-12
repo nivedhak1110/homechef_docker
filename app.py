@@ -99,12 +99,28 @@ def get_dish(name):
         try:
            #homechefname = name
            print(name)
+           dish_details = helper.dish_details(name)
+           dish = dish_details[0][0]
+           cost = dish_details[0][1]
+           availability = dish_details[0][2]
+
            # get the dish details from DB and return
-           return jsonify(dishname='biriany', price="99", availability="9", chefID=name)
+           return jsonify(dishname = dish, price = cost , availability = availability, chefname = name)
+
         except Exception as exception:
             return jsonify(status=exception.args[0], code=500)
+# place order
 
+@app.route("/get/order/<name>")
+def place_order(name):
+    try:
 
+        current_availability = helper.place_order(name)
+        print("inside place_order")
+        print(current_availability)
+        return jsonify( response = "thank you"  )
+    except Exception as exception:
+        return jsonify(status=exception.args[0], code=500)
 
 
 if __name__ == "__main__":
