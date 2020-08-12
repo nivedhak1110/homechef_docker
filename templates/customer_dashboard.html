@@ -1,55 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
 $(document).ready(function(){
 
                   $.getJSON("http://localhost:5000/test", function(result){
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
-                    var buttons = $('<button class="button"  data-value='+ data[i] +' >'+ data[i]  + '</button>' + '<br>'+ '<br>')
+
+                    var buttons = $('<button class="button"  data-value='+ data[i] +' > '+ data[i] + ' </button>' + '<br>'+ '<br>')
                     buttons.appendTo('#ID');
+
                     }
 
                     $('.button').click(function(e) {
-                    var name= $(this).data('value');
+                    var name = $(this).data('value');
 	                alert("Chef ID "+ name);
                     var url = "http://localhost:5000/get/homechef/"+ name
-                    alert(" Ger Dish URL" + url);
+                    alert(" Dish URL" + url);
 
                     $.getJSON(url, function(result){
                        var details = "DishName " + result.dishname + " Price "+ result.price + " Availability "+ result.availability
-                       var chefname = result.chefID
+                       var chefname = result.chefname
                        $("#ID").hide(1000);
-                       $(".chefName").append("ChefName "+ chefname + " ");
-                       $(".myDiv").append(details + " ");
+                       $(".chefName").append("ChefName "+ chefname );
+                       $(".details").append(details);
+
 
                        var ordername = "Order!"
                        var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
-                       order.appendTo('#orderID');
+                       order.appendTo('#order');
                          $('.order').click(function(e) {
-                           alert("Your Order placed !");
-                         });
+                         alert("Your Order placed !");
+                         var name = $(this).data('value');
+
+                        var url = "http://localhost:5000/get/order/"+ name
+
+
+                        $.getJSON(url, function(result){
+                        var response = result.response
+
+                        $(".chefName").hide(1000);
+                        $(".details").hide(1000);
+                        $(".order").hide(1000);
+                        $(".response").append( response );
+                        
+                        });
+
+
+                        });
+
 
                     });
 
-                });
+                   });
 
                  });
 
 
 
 });
-
-
-
-
-    </script>
-
-
-    <style>
+</script>
+<style>
    div.chef {
   width: 550px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -74,11 +87,7 @@ div.container {
         font-size: 13px;
         box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
         }
-
-
-
-
-    </style>
+</style>
 
 
 </head>
