@@ -104,14 +104,17 @@
   <input class="UD" type="text" id="email" name="email" placeholder="Email Id" required >
 
   <input class="UD" type="password" id="password" name="password" placeholder="Password" required ><br>
-      
-  <input class="UD" type="text" style="text-transform: lowercase;" id="category" name="category" placeholder="customer/homechef?" required ><br>
-      
+     <select  class="UD" name="category" id="category" style="text-indent: 95px;"  >
+
+        <option value="customer">customer</option>
+        <option value="homechef">homechef</option>
+      </select> 
+        
   <input class="UD" type="text" id="add" name="add" placeholder="Address" required>
           <input class="submit" type="reset"><br><br>
   <button  class="submit" type="submit" formaction="/save" formmethod="post">Signup</button>
 
-   </form>
+  </form>
     
    </div>
 
