@@ -110,17 +110,21 @@ def get_dish(name):
         except Exception as exception:
             return jsonify(status=exception.args[0], code=500)
 # place order
-
-@app.route("/get/order/<name>")
-def place_order(name):
+@app.route("/order" , methods = ['GET', 'POST'])
+def place_order():
     try:
 
-        current_availability = helper.place_order(name)
+        name = request.form['name']
+        print(name)
+        quantity = request.form['quantity']
+        print(quantity)
         print("inside place_order")
+        current_availability = helper.place_order(name , quantity)
         print(current_availability)
-        return jsonify( response = "thank you"  )
+        return jsonify( response = "thank you , your order placed!"  )
     except Exception as exception:
         return jsonify(status=exception.args[0], code=500)
+
 
 
 if __name__ == "__main__":
