@@ -13,6 +13,12 @@ $(document).ready(function(){
                     var buttons = $('<button class="button"  data-value='+ data[i] +' > '+ data[i] + ' </button>' + '<br>'+ '<br>')
 
                     buttons.appendTo('#ID');
+                    $("#chefName").hide(1000);
+                    $("#dishname").hide(1000);
+                    $("#price").hide(1000);
+                    $("#availability").hide(1000);
+                    $("#quantity").hide(1000);
+                    $(".order").hide(1000);
 
                     }
 
@@ -30,11 +36,12 @@ $(document).ready(function(){
                        var quantity = $("#quantity");
 
                        $("#ID").hide(1000);
-                       $("#chefName").append("ChefName "+ chefname );
-                       $("#dishname").append(dishname);
-                       $("#price").append(price);
-                        $("#availability").append(availability);
-                        $("#quantity").append(quantity)
+
+                       $("#chefName").append("ChefName "+ chefname ).show(1000);
+                       $("#dishname").append(dishname).show(1000);
+                       $("#price").append(price).show(1000);
+                        $("#availability").append(availability).show(1000);
+                        $("#quantity").append(quantity).show(1000);
 
                        var ordername = "Order!"
                        var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
