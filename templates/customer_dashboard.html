@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 $(document).ready(function(){
 
@@ -10,6 +11,7 @@ $(document).ready(function(){
                     for (var i = 0; i < result.name.length ; i++) {
 
                     var buttons = $('<button class="button"  data-value='+ data[i] +' > '+ data[i] + ' </button>' + '<br>'+ '<br>')
+
                     buttons.appendTo('#ID');
 
                     }
@@ -20,51 +22,69 @@ $(document).ready(function(){
                     var url = "http://localhost:5000/get/homechef/"+ name
                     alert(" Dish URL" + url);
 
-                    $.getJSON(url, function(result){
-                       var details = "DishName " + result.dishname + " Price "+ result.price + " Availability "+ result.availability
+                     $.getJSON(url, function(result){
                        var chefname = result.chefname
-                       $("#ID").hide(1000);
-                       $(".chefName").append("ChefName "+ chefname );
-                       $(".details").append(details);
+                       var dishname = "Dish " + result.dishname
+                       var price =  " Price "+ result.price
+                       var availability =  " Availability "+ result.availability
+                       var quantity = $("#quantity");
 
+                       $("#ID").hide(1000);
+                       $("#chefName").append("ChefName "+ chefname );
+                       $("#dishname").append(dishname);
+                       $("#price").append(price);
+                        $("#availability").append(availability);
+                        $("#quantity").append(quantity)
 
                        var ordername = "Order!"
                        var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
                        order.appendTo('#order');
                          $('.order').click(function(e) {
-                         alert("Your Order placed !");
-                         var name = $(this).data('value');
+                         var chef_name = $(this).data('value')
+                         var order_quantity = $('#quantity').val()
+                         $.ajax({
+                                url: '/order',
+                                data: $('form').serialize(),
+                                type: 'POST',
+                                success: function(result){
+                                   var response = result.response
+                                   $("#chefName").hide(1000);
+                                   $("#dishname").hide(1000);
+                                   $("#price").hide(1000);
+                                   $("#availability").hide(1000);
+                                   $("#quantity").hide(1000);
+                                   $(".order").hide(1000);
+                                   $(".response").append( response );
 
-                        var url = "http://localhost:5000/get/order/"+ name
+                                }
+
+                                });
+                         });
 
 
-                        $.getJSON(url, function(result){
-                        var response = result.response
 
-                        $(".chefName").hide(1000);
-                        $(".details").hide(1000);
-                        $(".order").hide(1000);
-                        $(".response").append( response );
-                        
                         });
 
-
-                        });
-
-
-                    });
+                      });
 
                    });
-
-                 });
 
 
 
 });
 </script>
+
+
+
+
+
+
+
 <style>
-   div.chef {
-  width: 550px;
+
+
+div.chef {
+  width: 70%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
 }
@@ -79,6 +99,7 @@ div.container {
         color: #fff;
         background: linear-gradient(to right, #FFA07A, #DC143C);
         border: 0;
+        width:200px;
         padding-left: 40px;
         padding-right: 40px;
         padding-bottom: 10px;
@@ -87,27 +108,72 @@ div.container {
         font-size: 13px;
         box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
         }
+ .order{
+        cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+        background: linear-gradient(to right, #FFA07A, #DC143C);
+        border: 0;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+        }
+
+ .details{
+    width: 20%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
+    }
+
+
 </style>
+
+
 
 
 </head>
 <body>
+<form>
 <center>
 <div align="center" class="chef" id="chef">
-        <img alt="chef" src="https://portcityfoodie.com/wp-content/uploads/2016/10/woman-eating-alone-2-848x342.jpg"
-             style="width:100%">
+        <img alt="chef" src="https://media.gettyimages.com/photos/young-woman-eating-burger-at-restaurant-with-outdoor-seating-picture-id1252893137?s=2048x2048"
+             style="width:100%; " >
 
         <div class="container">
             <p id="ID"></p>
-            <p id="order"></p>
+        </div>
+        <center>
+        <p class="details" id="chefName"></p>
+        <p class="details" id ="dishname" ></p>
+        <p class="details" id ="price"></p>
+        <p class="details" id ="availability"></p>
+        <input  class = "details" type="number"  id="quantity" placeholder="Enter Quantity"  required  > </input>
+        <p id="order"></p>
+        <p class ="response" style="font-family: 'Ubuntu', sans-serif;"></p>
+        </center>
 
-
-        <div class="chefName"></div>
-        <div class="details"></div>
-        <div class ="response"></div>
-    </div>
-    
 
 </center>
+</form>
 </body>
 </html>
+
+
