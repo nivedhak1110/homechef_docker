@@ -394,7 +394,7 @@ def dish_details(name):
         print("Error while printing dish details", e)
 # place order
 
-def place_order(name):
+def place_order(name ,quantity):
     try:
 
         mydb = mysql.connector.connect(
@@ -408,7 +408,7 @@ def place_order(name):
         print("inside helper place order")
         availability = mycursor.fetchone()[0]
         print(availability)
-        current_availability = availability - 1
+        current_availability = availability - quantity
         if(availability > 0):
 
             sql = "update  homechef set availability = {availability}  where ID = '{name}' ".format (availability = current_availability , name= name)
@@ -429,11 +429,4 @@ def place_order(name):
 
     except Error as e:
         print("Error while ordering ", e)
-
-
-
-        
-
-
-
 
