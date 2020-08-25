@@ -4,6 +4,9 @@ from flask_cors import CORS
 from core.logic import helper_nodb
 from core.logic import helper
 
+
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -30,7 +33,7 @@ def save():
         return render_template('login_design1.html')
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
-    
+
 """
 3. Login  page
 """
@@ -55,7 +58,7 @@ def logincheck():
 
 
     else:
-        return jsonify(status='Invalid credentials, Failed to login , Please try again', code=400)
+        return jsonify(status= 'Invalid credentials, Failed to login , Please try again', code=400)
 
 """
 5. homechef   page
@@ -77,10 +80,9 @@ def homechef_save():
 
 
     if (status == "success"):
-        return render_template('thankyou.html')
+        return jsonify(response = "thank you")
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
-
 
 @app.route('/restclient')
 def restclient_test():
@@ -89,17 +91,17 @@ def restclient_test():
 @app.route('/test',methods=['get'])
 def test_get():
     list = helper.print_homechef_ID(request)
-        
-    return jsonify( name = list )
 
+    return jsonify( name = list)
 
 # Method to get the homechef details
 @app.route("/get/homechef/<name>")
-def get_dish(name):
+def get_dish(name ):
         try:
            #homechefname = name
            print(name)
-           dish_details = helper.dish_details(name)
+
+           dish_details = helper.dish_details(name )
            dish = dish_details[0][0]
            cost = dish_details[0][1]
            availability = dish_details[0][2]
@@ -110,13 +112,15 @@ def get_dish(name):
         except Exception as exception:
             return jsonify(status=exception.args[0], code=500)
 # place order
+
 @app.route("/order" , methods = ['GET', 'POST'])
 def place_order():
     try:
-        if(request.method == 'POST'):
-            name = request.form['name']
+            order_details = request.get_json(force=True)
+
+            name = order_details['name']
             print(name)
-            quantity = request.form['quantity']
+            quantity = order_details['quantity']
             print(quantity)
             print("inside place_order")
             current_availability = helper.place_order(name , quantity)
@@ -126,7 +130,7 @@ def place_order():
         return jsonify(status=exception.args[0], code=500)
 
 
-
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
