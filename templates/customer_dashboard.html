@@ -43,38 +43,35 @@ $(document).ready(function(){
                         $("#availability").append(availability).show(1000);
                         $("#quantity").append(quantity).show(1000);
 
-                       var ordername = "Order!"
-                       var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
-                       order.appendTo('#order');
+                        var ordername = "Order!"
+                        var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
+                        order.appendTo('#order');
                          $('.order').click(function(e) {
-                         var chef_name = $(this).data('value')
-                         var order_quantity = $('#quantity').val()
-                         $.ajax({
-                                url: '/order',
-                                data: $('form').serialize(),
-                                type: 'POST',
-                                success: function(result){
-                                   var response = result.response
+                               alert("Your Order placed !");
+                                let order_details = {
+                                               chef_name: $(this).data('value')
+                                               order_quantity:  $("#quantity").val()
+                                             }
+                                var order_url = "http://localhost:5000/order"
+                                $.post(order_url , JSON.stringify(order_details), function(result){
                                    $("#chefName").hide(1000);
                                    $("#dishname").hide(1000);
                                    $("#price").hide(1000);
                                    $("#availability").hide(1000);
                                    $("#quantity").hide(1000);
                                    $(".order").hide(1000);
+                                   var response = result.response
                                    $(".response").append( response );
-
-                                }
-
                                 });
-                         });
 
 
+
+                          });
 
                         });
 
                       });
-
-                   });
+                  });
 
 
 
