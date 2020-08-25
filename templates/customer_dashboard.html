@@ -43,17 +43,24 @@ $(document).ready(function(){
                         $("#availability").append(availability).show(1000);
                         $("#quantity").append(quantity).show(1000);
 
+
                         var ordername = "Order!"
                         var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
                         order.appendTo('#order');
                          $('.order').click(function(e) {
-                               alert("Your Order placed !");
-                                let order_details = {
-                                               chef_name: $(this).data('value')
-                                               order_quantity:  $("#quantity").val()
+                                var chef_name =  $(this).data('value')
+                                alert("chef name"+chef_name);
+                                alert("Your Order placed !");
+                                var  order_quantity = $("#quantity").val()
+                                alert("order_quantity"+order_quantity);
+                                var order_details = {
+                                               'chef_name': chef_name ,
+                                               'order_quantity': order_quantity
                                              }
+                                var myJSON = JSON.stringify(order_details);
+                                alert("order_details"+ myJSON);
                                 var order_url = "http://localhost:5000/order"
-                                $.post(order_url , JSON.stringify(order_details), function(result){
+                                $.post(order_url , myJSON , function(result){
                                    $("#chefName").hide(1000);
                                    $("#dishname").hide(1000);
                                    $("#price").hide(1000);
@@ -63,6 +70,8 @@ $(document).ready(function(){
                                    var response = result.response
                                    $(".response").append( response );
                                 });
+
+
 
 
 
@@ -179,5 +188,3 @@ div.container {
 </form>
 </body>
 </html>
-
-
