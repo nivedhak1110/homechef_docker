@@ -5,7 +5,7 @@
 
 <script>
 $(document).ready(function(){
-
+                  $(".back").hide(10);
                   $.getJSON("http://localhost:5000/test", function(result){
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
@@ -45,6 +45,7 @@ $(document).ready(function(){
                        var customer_contact = $("#customer_contact");
                        $("#ID").hide(1000);
 
+                        $(".back").show(1000);
                         $("#chefName").append("Chef ID "+ chefname ).show(1000);
                         $("#contact").append("chefContact "+ contact ).show(1000);
                         $("#dishname").append(dishname).show(1000);
@@ -185,7 +186,24 @@ div.container {
     margin-bottom: 27px;
     font-family: 'Ubuntu', sans-serif;
     }
+ a {
+   text-decoration: none;
+   display: inline-block;
+   padding: 20px;
+   font-size: 35px;
+   width: 40px;
+   text-align: center;
+}
+  .back:hover {
+   background-color: #ddd;
+   color: black;
+   }
 
+.back {
+   border-radius: 50%;
+   background-color: #acacac;
+   color: black;
+   }
 
 </style>
 
@@ -203,6 +221,7 @@ div.container {
         <div class="container">
             <p id="ID"></p>
         </div>
+        <a href="http://localhost:5000/restclient" class="back">‹</a>
         <center>
         <p class="details" id="chefName"></p>
         <p class="details" id="contact"></p>
