@@ -7,7 +7,7 @@ from core.logic import helper
 
 
 
-app = Flask(__name__)
+app: Flask = Flask(__name__)
 CORS(app)
 
 
@@ -65,9 +65,16 @@ def logincheck():
 """
 # return Homechef dashboard to add more dishes
 
-@app.route('/add_dish' , methods=['get'])
+@app.route('/add_dish' ,methods=['post'] )
 def homechef():
-    return render_template('homechef-dashboard.html')
+    helper.create_database_homechef()
+    helper.create_table_homechef()
+    status = helper.get_input_homechef(request)
+    if (status == "success"):
+        return render_template('homechef-dashboard.html')
+    else:
+        return jsonify(status='Failed to save the details, try Signup Again', code=400)
+
 """
 6. save homechef entries  page
 """
@@ -80,7 +87,7 @@ def homechef_save():
 
 
     if (status == "success"):
-        return jsonify(response = "thank you")
+        return render_template('thankyou.html')
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
 
@@ -95,6 +102,7 @@ def test_get():
     return jsonify( name = list)
 
 # Method to get the homechef details
+
 @app.route("/get/homechef/<name>")
 def get_dish(name ):
         try:
@@ -105,9 +113,9 @@ def get_dish(name ):
            dish = dish_details[0][0]
            cost = dish_details[0][1]
            availability = dish_details[0][2]
-
+           contact =  dish_details[0][3]
            # get the dish details from DB and return
-           return jsonify(dishname = dish, price = cost , availability = availability, chefname = name)
+           return jsonify(dishname = dish, price = cost , availability = availability, chefname = name , contact = contact)
 
         except Exception as exception:
             return jsonify(status=exception.args[0], code=500)
@@ -116,19 +124,57 @@ def get_dish(name ):
 @app.route("/order" , methods = ['GET', 'POST'])
 def place_order():
     try:
+        if request.method == 'POST':
+            print(request)
             order_details = request.get_json(force=True)
-
-            name = order_details['name']
-            print(name)
-            quantity = order_details['quantity']
+            chef_name = order_details['chef_name']
+            print(chef_name)
+            dish = order_details['dish']
+            print(dish)
+            quantity = int(order_details['order_quantity'])
             print(quantity)
-            print("inside place_order")
-            current_availability = helper.place_order(name , quantity)
+            customer_name = order_details['customer_name']
+            print(customer_name)
+            address = order_details['address']
+            print(address)
+            customer_contact = int(order_details['customer_contact'])
+            print(customer_contact )
+
+            current_availability = helper.place_order(chef_name ,quantity )
             print(current_availability)
+
+            print("create a order_details database and table")
+            helper.create_database_order_details()
+            status = helper.create_table_order_details()
+            print(status)
+            if(status == "success"):
+                helper.insert_order_details(chef_name,customer_name,customer_contact,address ,dish, quantity)
+            else:
+                return jsonify(status='Failed to save the order details', code=400)
+
             return jsonify( response = "thank you , your order placed!"  )
+
     except Exception as exception:
         return jsonify(status=exception.args[0], code=500)
 
+
+#homechef check orders
+@app.route('/check_orders', methods=['POST'])
+def homechef_check_orders():
+    return render_template('thankyou.html')
+#method to retrive the name,order_details  of the customers who ordered the dish
+@app.route('/get/ordercustomer/<name>')
+def get_customer_order_details(name):
+    try:
+
+        print(name)
+        customer_order_details = helper.customer_order_details(name)
+
+        print(customer_order_details)
+
+        return jsonify(customer_order_details = customer_order_details)
+    except Exception as exception:
+        return jsonify(status=exception.args[0], code=500)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
