@@ -8,7 +8,6 @@
         background:url(https://media.gettyimages.com/photos/cooking-backgrounds-fresh-vegetables-and-kitchen-utensils-frame-picture-id1124754345?s=2048x2048);
 
         background-size: cover;
-
         font-family: 'Ubuntu', sans-serif;
        
     	}
@@ -60,7 +59,7 @@
 
 
     .submit {
-      cursor: pointer;
+        cursor: pointer;
         border-radius: 5em;
         color: #fff;
         background: linear-gradient(to right, #FFA07A, #DC143C);
@@ -114,9 +113,11 @@
 
   <p class="homechef" align="center" >Home Chef</p>
   
-  <input  class="ID"  type="text" id="ID" name="ID" placeholder="Email ID">
-  <input  class="ID" type="password" id="password" name="password" placeholder="Password">
-  <button  class="submit"  type="submit" formaction="/logincheck" formmethod="post">Login</button>
+  <input  class="ID"  type="email" id="ID" name="ID" placeholder="Email ID"   >
+  <input  class="ID" type="password" id="password" name="password" placeholder="Password"   >
+
+
+  <button  class="submit" id="login"  type="submit" formaction="/logincheck" formmethod="post">Login</button>
   <p class="forgot" align="center"><a href="#">Forgot Password?</p>
   <button class="submit"   type="submit" formaction="/signup" formmethod="get">Signup</button>
   
