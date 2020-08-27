@@ -1,21 +1,25 @@
 import mysql.connector
 from mysql.connector import Error
 import hashlib
+
+
+
 try:
     mydb = mysql.connector.connect(
         host="mysql",
         user="root",
         passwd="mypassword"
-        #database="signup"
+        # database="signup"
     )
 
 except Error as e:
     print("Error while connecting to MySQL", e)
-            
+
+
 # method to create database if not exist
 def create_database_signup():
     try:
-        
+
         mycursor = mydb.cursor()
         mycursor.execute("SHOW DATABASES")
         databases = mycursor.fetchall()
@@ -34,26 +38,26 @@ def create_database_signup():
             mycursor.execute("CREATE DATABASE signup")
             print("Signup Database created !", flush=True)
     except Error as e:
-        print("Error while creating database", e) 
-    
-    
-        
+        print("Error while creating database", e)
+
+
+
 #  method to create signup table if not exist
 def create_table_signup():
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword" )
-            
-        
+            host="mysql",
+            user="root",
+            passwd="mypassword")
+
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         mycursor.execute("SHOW TABLES")
         tables = mycursor.fetchall()
 
+
         table_create = True
-        for table in  tables :
+        for table in tables:
             signup_table = "{0}".format(table[0])
 
             print(signup_table, flush=True)
@@ -62,12 +66,14 @@ def create_table_signup():
                 print("Signup table already created !", flush=True)
                 table_create = False
                 break
-        if ( table_create ):
-            mycursor.execute("CREATE TABLE signup (fname VARCHAR(20), lname VARCHAR(20) ,  email VARCHAR(20), password TINYTEXT, category VARCHAR(20) , address VARCHAR(20))")
+        if (table_create):
+            mycursor.execute(
+                "CREATE TABLE signup (fname VARCHAR(50), lname VARCHAR(50) ,  email VARCHAR(20), password TINYTEXT,category VARCHAR(50) , address VARCHAR(100))")
             print("Signup table  created !", flush=True)
+
     except Error as e:
         print("Error while creating table ", e)
-    
+
 
 
 
@@ -76,10 +82,12 @@ def create_table_signup():
 def read_input(request):
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
+
+
         email_id = request.form.get('ID')
         b = request.form.get('password')
         hash2 = hashlib.md5(b.encode())
@@ -91,34 +99,35 @@ def read_input(request):
         # status = "success"
         status = login_verify(email_id, passwd)
         print(status)
-        
-
-        
+        return status
     except Error as e:
         print("Error while reading input ", e)
-    
-    
 
 
 
-# verify login details
+"""  except Exception as exception:
+        print("Error ")
+        print(exception.args[0])"""
 
 
-def login_verify(email_id, passwd):
+##verify login details
+
+
+def login_verify(email_id, passwd ):
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-        #database="signup"
-    )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+            # database="signup"
+        )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         sql= "select count(email)   from signup where email= '" + email_id + "'"
         mycursor.execute(sql)
         count = mycursor.fetchone()
-        print(count[0])
         if(count[0] == 1):
+
             sql = "select password   from signup where email= '" + email_id + "'"
             mycursor.execute(sql)
             myresult1 = mycursor.fetchone()[0]
@@ -134,10 +143,10 @@ def login_verify(email_id, passwd):
         print(myresult2)
 
         try:
-            if (passwd == myresult1  and myresult2 == "customer"):
+            if (passwd == myresult1  and myresult2.lower() == "customer"):
                 print("login success")
                 return "customer"
-            elif(passwd == myresult1  and myresult2 == "homechef"):
+            elif(passwd == myresult1  and myresult2.lower() == "homechef"):
                 print("login success")
                 return "homechef"
             else:
@@ -155,22 +164,20 @@ def login_verify(email_id, passwd):
         print("Error while verifying details ", e)
 
 
-# print all signup details
+# print all signup database details
 def print_all():
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-        #database="signup"
-    )
-        
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
+
         print("Printing all DB data")
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         mycursor.execute("SELECT * FROM signup")
         myresult = mycursor.fetchall()
-        
 
         for x in myresult:
             print(x)
@@ -182,13 +189,14 @@ def print_all():
 
 
 def get_input(request):
-    try: 
+    try:
+
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
-        
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
+
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         email = request.form.get('email')
@@ -198,42 +206,42 @@ def get_input(request):
         print(password)
         category = request.form.get('category')
         address = request.form.get('add')
-        signup_insert(fname, lname, email, password, category , address)
+
+
+        signup_insert(fname, lname, email, password, category, address)
         return "success"
     except Error as e:
-        print("Error while reading input ", e) ,
-    
-    
+        print("Error while reading input ", e)
+
+
 # save user signup  details in database
-def signup_insert(fname, lname, email, password, category, address):
+def signup_insert(fname, lname, email, password,category, address):
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-        #database="signup"
-    )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
         mycursor = mydb.cursor()
         mycursor.execute("USE signup")
         sql = "INSERT INTO signup VALUES(%s,%s,%s,%s,%s,%s)"
-        val = (fname, lname, email, password, category, address)
+        val = (fname, lname, email, password, category , address)
         mycursor.execute(sql, val)
         mydb.commit()
         print_all()
 
     except Error as e:
-         print("Error while inserting into  table ", e)
+        print("Error while inserting into table ", e)
 
-            
-# create   homechef database,create  homechef table
+# create   homechef database
 
 def create_database_homechef():
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword")
+
         mycursor = mydb.cursor()
         mycursor.execute("SHOW DATABASES")
         databases = mycursor.fetchall()
@@ -258,10 +266,10 @@ def create_database_homechef():
 def create_table_homechef():
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword")
+
         mycursor = mydb.cursor()
         mycursor.execute("USE homechef")
         mycursor.execute("SHOW TABLES")
@@ -279,7 +287,7 @@ def create_table_homechef():
                 break
         if (table_create):
             mycursor.execute(
-                "CREATE TABLE homechef ( ID VARCHAR(20) NOT NULL PRIMARY KEY , chef_name VARCHAR(20), date VARCHAR(20) ,  dish VARCHAR(40), cost int , availability int  , location VARCHAR(20))")
+                "CREATE TABLE homechef ( ID VARCHAR(50) NOT NULL PRIMARY KEY , chef_name VARCHAR(50), date VARCHAR(20) ,  dish VARCHAR(100), cost int , availability int , location VARCHAR(100), contact bigint)")
             print("homechef table  created !", flush=True)
 
     except Error as e:
@@ -290,10 +298,10 @@ def get_input_homechef(request):
     try:
 
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
         ID=  request.form.get('ID')
         chef = request.form.get('chef')
         date = request.form.get('date')
@@ -301,26 +309,26 @@ def get_input_homechef(request):
         cost = request.form.get('cost')
         availability = request.form.get('available')
         location = request.form.get('location')
+        contact =  request.form.get('contact')
 
-
-        homechef_insert( ID, chef, date , dish, cost, availability , location)
+        homechef_insert( ID, chef, date , dish, cost, availability , location , contact)
         return "success"
     except Error as e:
         print("Error while reading input ", e)
 
 
 # save  chef entries   in homechef database
-def homechef_insert(ID, chef, date , dish, cost, availability , location):
+def homechef_insert(ID, chef, date , dish, cost, availability,location, contact):
     try:
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
         mycursor = mydb.cursor()
         mycursor.execute("USE homechef")
-        sql = "INSERT INTO homechef VALUES(%s,%s,%s,%s,%s,%s,%s)"
-        val = (ID,chef, date , dish, cost, availability , location)
+        sql = "INSERT INTO homechef VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+        val = (ID,chef, date , dish, cost, availability , location, contact)
         mycursor.execute(sql, val)
         mydb.commit()
         print("insert into homechef database successful")
@@ -332,12 +340,11 @@ def homechef_insert(ID, chef, date , dish, cost, availability , location):
 # print all homechef table details
 def print_all_homechef():
     try:
-        
         mydb = mysql.connector.connect(
-        host="mysql",
-        user="root",
-        passwd="mypassword"
-         )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
 
         print("Printing all homechef data")
         mycursor = mydb.cursor()
@@ -351,7 +358,7 @@ def print_all_homechef():
         print("Error while printing homechef table  details ", e)
 
 
-# retrive homechef ID from database 
+# retrive homechef ID from database
 def print_homechef_ID(request):
     try:
 
@@ -371,19 +378,19 @@ def print_homechef_ID(request):
 
     except Error as e:
         print("Error while printing homechef id", e)
-        
+
 # retrive dish details from the respective homechef table
 def dish_details(name):
     try:
 
         mydb = mysql.connector.connect(
-           host="mysql",
-           user="root",
-           passwd="mypassword"
-            )
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
         mycursor = mydb.cursor()
         mycursor.execute("USE homechef")
-        mycursor.execute("select dish,cost, availability from homechef where ID = '" + name + "' ")
+        mycursor.execute("select dish,cost, availability,contact from homechef where ID = '" + name + "' ")
         dish_details = mycursor.fetchall()  # data from database
         print(dish_details)
 
@@ -394,14 +401,15 @@ def dish_details(name):
         print("Error while printing dish details", e)
 # place order
 
-def place_order(name ,quantity):
+def place_order( name ,quantity):
     try:
 
         mydb = mysql.connector.connect(
-           host="mysql",
-           user="root",
-           passwd="mypassword"
+            host="mysql",
+            user="root",
+            passwd="mypassword"
         )
+
         mycursor = mydb.cursor(buffered=True)
         mycursor.execute("USE homechef")
         mycursor.execute("select  availability from homechef where ID = '" + name + "' ")
@@ -409,12 +417,11 @@ def place_order(name ,quantity):
         availability = mycursor.fetchone()[0]
         print(availability)
         current_availability = availability - quantity
+        print(current_availability)
         if(availability > 0):
 
             sql = "update  homechef set availability = {availability}  where ID = '{name}' ".format (availability = current_availability , name= name)
             #val = current_availability
-            print(sql)
-
             mycursor.execute(sql)
             print(current_availability)
             print("database updated successfully")
@@ -430,3 +437,132 @@ def place_order(name ,quantity):
     except Error as e:
         print("Error while ordering ", e)
 
+# create   order_details database
+
+def create_database_order_details():
+    try:
+        mydb = mysql.connector.connect(
+            host="mysql",
+            user="root",
+            passwd="mypassword")
+
+        mycursor = mydb.cursor()
+        mycursor.execute("SHOW DATABASES")
+        databases = mycursor.fetchall()
+
+        db_create = True
+        for database in databases:
+            order_db = "{0}".format(database[0])
+
+            print(order_db, flush=True)
+
+            if (order_db == "order_details"):
+                print("order_details Database already created !", flush=True)
+                db_create = False
+                break
+        if (db_create):
+            mycursor.execute("CREATE DATABASE order_details")
+            print(" Database order_details created !", flush=True)
+    except Error as e:
+        print("Error while creating database", e)
+
+# create order_details table
+def create_table_order_details():
+    try:
+        mydb = mysql.connector.connect(
+            host="mysql",
+            user="root",
+            passwd="mypassword")
+
+        mycursor = mydb.cursor()
+        mycursor.execute("USE order_details ")
+        mycursor.execute("SHOW TABLES")
+        tables = mycursor.fetchall()
+
+        table_create = True
+        for table in tables:
+            order_table = "{0}".format(table[0])
+
+            print(order_table, flush=True)
+
+            if (order_table == "order_details"):
+                print("order_details table already created !", flush=True)
+                table_create = False
+                break
+        if (table_create):
+            mycursor.execute(
+                "CREATE TABLE order_details (  chef_name VARCHAR(50), customer_name VARCHAR(50), customer_contact bigint , customer_address VARCHAR(200), dish VARCHAR(50) , quantity int  )")
+            print(" order_details table  created !", flush=True)
+        return "success"
+    except Error as e:
+        print("Error while creating table ", e)
+
+
+
+#insert order_details into order_details table
+
+def insert_order_details(chef_name,customer_name,customer_contact,address ,dish, quantity):
+    try:
+        mydb = mysql.connector.connect(
+            host="mysql",
+            user="root",
+            passwd="mypassword")
+        mycursor = mydb.cursor()
+        mycursor.execute("USE order_details")
+        sql = "insert into order_details values (%s,%s,%s,%s,%s,%s)"
+        val =  (chef_name,customer_name,customer_contact,address ,dish, quantity)
+        mycursor.execute(sql,val)
+        mydb.commit()
+        print("insert into order_details table successful")
+        print_all_order_details()
+
+    except Error as e:
+        print("Error while inserting into order_details table ", e)
+
+#print all order_details
+def print_all_order_details():
+    try:
+        mydb = mysql.connector.connect(
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
+
+        print("Printing all order_details ")
+        mycursor = mydb.cursor()
+        mycursor.execute("USE order_details")
+        mycursor.execute("SELECT * FROM order_details")
+        myresult = mycursor.fetchall()
+
+        for x in myresult:
+            print(x)
+    except Error as e:
+        print("Error while printing  order_details table  details ", e)
+
+
+
+
+
+
+#method to retrive order details for homechef to  check order details from database
+def customer_order_details(name):
+
+    try:
+
+        mydb = mysql.connector.connect(
+            host="mysql",
+            user="root",
+            passwd="mypassword"
+        )
+        mycursor = mydb.cursor()
+        mycursor.execute("USE order_details")
+        mycursor.execute("select customer_name,customer_contact,customer_address,dish,quantity  from order_details where chef_name = '" + name + "' ")
+
+        order_details = mycursor.fetchall() # data from database
+
+        print(order_details)
+
+        return order_details
+
+    except Error as e:
+        print("Error while printing customer order details", e)
