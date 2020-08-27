@@ -18,7 +18,12 @@ $(document).ready(function(){
                     $("#price").hide(1000);
                     $("#availability").hide(1000);
                     $("#quantity").hide(1000);
+                    $("#customer").hide(1000);
+                    $("#address").hide(1000);
+                    $("#contact").hide(1000);
+                    $("#customer_contact").hide(1000);
                     $(".order").hide(1000);
+
 
                     }
 
@@ -30,42 +35,67 @@ $(document).ready(function(){
 
                      $.getJSON(url, function(result){
                        var chefname = result.chefname
-                       var dishname = "Dish " + result.dishname
+                       var contact = result.contact
+                       var dishname =  result.dishname
                        var price =  " Price "+ result.price
                        var availability =  " Availability "+ result.availability
                        var quantity = $("#quantity");
-
+                       var customer = $("#customer");
+                       var address =  $("#address");
+                       var customer_contact = $("#customer_contact");
                        $("#ID").hide(1000);
 
-                       $("#chefName").append("ChefName "+ chefname ).show(1000);
-                       $("#dishname").append(dishname).show(1000);
-                       $("#price").append(price).show(1000);
+                        $("#chefName").append("Chef ID "+ chefname ).show(1000);
+                        $("#contact").append("chefContact "+ contact ).show(1000);
+                        $("#dishname").append(dishname).show(1000);
+                        $("#price").append(price).show(1000);
                         $("#availability").append(availability).show(1000);
+                        $("#customer").append(customer).show(1000);
+                        $("#address").append(address).show(1000);
+                        $("#customer_contact").append(customer_contact).show(1000);
                         $("#quantity").append(quantity).show(1000);
-
 
                         var ordername = "Order!"
                         var order = $('<button class="order"  data-value='+ chefname +' >'+ ordername  + '</button>' + '<br>'+ '<br>')
                         order.appendTo('#order');
-                         $('.order').click(function(e) {
+                         $('.order').click(function(e , dishname) {
                                 var chef_name =  $(this).data('value')
-                                alert("chef name"+chef_name);
-                                alert("Your Order placed !");
+
+                                var dish_name = $("#dishname").text()
+
+
                                 var  order_quantity = $("#quantity").val()
-                                alert("order_quantity"+order_quantity);
+
+                                var customer_name = $("#customer").val()
+
+                                var  order_address = $("#address").val()
+
+                                var customer_contact = $("#customer_contact").val()
+
                                 var order_details = {
                                                'chef_name': chef_name ,
-                                               'order_quantity': order_quantity
+                                               'order_quantity': order_quantity,
+                                               'dish':  dish_name ,
+                                               'customer_name' : customer_name,
+                                               'address' : order_address,
+                                               'customer_contact' : customer_contact
                                              }
                                 var myJSON = JSON.stringify(order_details);
-                                alert("order_details"+ myJSON);
+                                alert("order_details" + myJSON);
+                                alert("Your Order placed !");
                                 var order_url = "http://localhost:5000/order"
+
                                 $.post(order_url , myJSON , function(result){
                                    $("#chefName").hide(1000);
+                                   $("#contact").hide(1000);
                                    $("#dishname").hide(1000);
                                    $("#price").hide(1000);
                                    $("#availability").hide(1000);
                                    $("#quantity").hide(1000);
+                                   $("#customer").hide(1000);
+                                   $("#address").hide(1000);
+                                   $("#customer_contact").hide(1000);
+
                                    $(".order").hide(1000);
                                    var response = result.response
                                    $(".response").append( response );
@@ -175,10 +205,15 @@ div.container {
         </div>
         <center>
         <p class="details" id="chefName"></p>
+        <p class="details" id="contact"></p>
         <p class="details" id ="dishname" ></p>
         <p class="details" id ="price"></p>
         <p class="details" id ="availability"></p>
+        <input  class = "details"   id="customer" placeholder="Enter your name"  required  > </input>
+        <input  class = "details"   id="address" placeholder="Enter address"  required  > </input>
+        <input  class = "details"   id="customer_contact" placeholder="contact number"  required  > </input>
         <input  class = "details" type="number"  id="quantity" placeholder="Enter Quantity"  required  > </input>
+
         <p id="order"></p>
         <p class ="response" style="font-family: 'Ubuntu', sans-serif;"></p>
         </center>
