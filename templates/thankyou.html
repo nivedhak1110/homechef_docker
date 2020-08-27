@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>check orders</title>
+    <title>thankyou</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
             $("#orders").hide(10);
+            $(".back").hide(10);
             $.getJSON("http://localhost:5000/test", function(result){
 
                     var data = result.name;
@@ -23,6 +24,7 @@ $(document).ready(function(){
                             alert(" Dish URL" + url);
                             $("#ID").hide(1000);
                             $("#heading").hide(10);
+                            $(".back").show(1000);
                             $("#orders").show(1000);
                             $.getJSON(url, function(response){
                                     var customer_order_details = response.customer_order_details;
@@ -113,6 +115,24 @@ $(document).ready(function(){
 
 
     }
+  a {
+   text-decoration: none;
+   display: inline-block;
+   padding: 20px;
+   font-size: 35px;
+   width: 40px;
+   text-align: center;
+}
+  .back:hover {
+   background-color: #ddd;
+   color: black;
+   }
+
+.back {
+   border-radius: 50%;
+   background-color: #acacac;
+   color: black;
+   }
 
 
 </style>
@@ -136,6 +156,7 @@ $(document).ready(function(){
                  <p id="ID"></p>
 
              </div>
+             <a href="http://localhost:5000/check_orders" class="back">‹</a>
         <center>
         <p  id="customer_order_details"></p>
         <p class ="response" style="font-family: 'Ubuntu', sans-serif;"></p>
