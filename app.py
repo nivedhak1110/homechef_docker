@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template,redirect
 from flask import request
 from flask_cors import CORS
 from core.logic import helper_nodb
@@ -47,14 +47,14 @@ def login():
 """
 
 #login check method
-@app.route('/logincheck' , methods=['POST'])
+@app.route('/logincheck' , methods=['GET','POST'])
 def logincheck():
     status = helper.read_input(request)
     print(status)
     if (status == "homechef"):
         return render_template('homechef-dashboard.html')
     elif(status == "customer"):
-        return render_template('customer_dashboard.html')
+        return redirect("http://localhost:5000/restclient", code=302)
 
 
     else:
@@ -91,7 +91,7 @@ def homechef_save():
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
 
-@app.route('/restclient')
+@app.route('/restclient', methods = ['GET', 'POST'])
 def restclient_test():
     return render_template('customer_dashboard.html')
 
@@ -152,14 +152,14 @@ def place_order():
             else:
                 return jsonify(status='Failed to save the order details', code=400)
 
-            return jsonify( response = "thank you , your order placed!"  )
+            return jsonify(response = "thank you , your order placed!" )
 
     except Exception as exception:
         return jsonify(status=exception.args[0], code=500)
 
 
 #homechef check orders
-@app.route('/check_orders', methods=['POST'])
+@app.route('/check_orders', methods = ['GET', 'POST'])
 def homechef_check_orders():
     return render_template('thankyou.html')
 #method to retrive the name,order_details  of the customers who ordered the dish
