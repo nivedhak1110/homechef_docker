@@ -3,11 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <title>thankyou</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+            $("#orders").hide(10);
+            $.getJSON("http://localhost:5000/test", function(result){
+
+                    var data = result.name;
+                    for (var i = 0; i < result.name.length ; i++) {
+
+                        var chefbuttons = $('<button class="chefbutton"  data-value='+ data[i] +' > '+ data[i] + ' </button>' + '<br>'+ '<br>')
+                           chefbuttons.appendTo('#ID');
+                    }
+
+                    $('.chefbutton').click(function(e) {
+                            var name = $(this).data('value');
+                            alert(name);
+                            var url = "http://localhost:5000/get/ordercustomer/"+ name
+                            alert(" Dish URL" + url);
+                            $("#ID").hide(1000);
+                            $("#heading").hide(10);
+                            $("#orders").show(1000);
+                            $.getJSON(url, function(response){
+                                    var customer_order_details = response.customer_order_details;
+
+                                     alert(customer_order_details);
+                                     alert( response.customer_order_details.length);
+
+                                     for (var i = 0; i < response.customer_order_details.length ; i++) {
+
+                                             var customer_orders = $('<p class="details"  data-order='+customer_order_details[i] +' > '+customer_order_details[i] + ' </p>' + '<br>'+ '<br>')
+                                              customer_orders.appendTo('#customer_order_details');
+                                         }
+
+
+
+                            });
+
+
+
+                    });
+
+
+
+
+
+
+
+
+
+
+            });
+
+
+});
+
+
+</script>
+<style>
+
+    div.chef {
+    width: 70%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    }
+    .heading {
+        padding-top: 40px;
+        color: #DC143C;
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold;
+        font-size: 23px;
+    	}
+
+
+    .chefbutton {
+        cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+        background: linear-gradient(to right, #FFA07A, #DC143C);
+        border: 0;
+        width:200px;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+        }
+
+    .details{
+        width: 80%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
+
+
+    }
+
+
+</style>
+
+
+
+
+
+
+
+
 </head>
 <body>
 <center>
-<h2>Thank You </h2>
-<p> Need to design<p>
+<div align="center" class="chef" id="chef">
+        <img alt="chef" src="https://media.gettyimages.com/photos/tracking-coffee-shop-operations-on-his-tablet-picture-id857357056?s=2048x2048"
+             style="width:100%; " >
+            <div class="container">
+                 <p class="heading" id="heading" align="center" > click on your ID to check your orders </p>
+                 <p class="heading" id="orders" align="center" > your orders! </p>
+                 <p id="ID"></p>
+
+             </div>
+        <center>
+        <p  id="customer_order_details"></p>
+        <p class ="response" style="font-family: 'Ubuntu', sans-serif;"></p>
+        </center>
 
 </center>
 </body>
