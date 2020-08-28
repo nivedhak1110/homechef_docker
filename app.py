@@ -54,7 +54,7 @@ def logincheck():
     if (status == "homechef"):
         return render_template('homechef-dashboard.html')
     elif(status == "customer"):
-        return redirect("http://localhost:5000/restclient", code=302)
+        return redirect("http://192.168.99.100:5000/restclient", code=302)
 
 
     else:
