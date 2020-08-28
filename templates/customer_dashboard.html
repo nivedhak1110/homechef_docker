@@ -6,6 +6,17 @@
 <script>
 $(document).ready(function(){
                   $(".back").hide(10);
+		  $("#chefName").hide(1000);
+	          $("#dishname").hide(1000);
+	          $("#price").hide(1000);
+	          $("#availability").hide(1000);
+	          $("#quantity").hide(1000);
+	          $("#customer").hide(1000);
+	          $("#address").hide(1000);
+	          $("#contact").hide(1000);
+	          $("#customer_contact").hide(1000);
+	          $(".order").hide(1000);
+
                   $.getJSON("http://192.168.99.100:5000/test", function(result){
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
@@ -13,17 +24,7 @@ $(document).ready(function(){
                     var buttons = $('<button class="button"  data-value='+ data[i] +' > '+ data[i] + ' </button>' + '<br>'+ '<br>')
 
                     buttons.appendTo('#ID');
-                    $("#chefName").hide(1000);
-                    $("#dishname").hide(1000);
-                    $("#price").hide(1000);
-                    $("#availability").hide(1000);
-                    $("#quantity").hide(1000);
-                    $("#customer").hide(1000);
-                    $("#address").hide(1000);
-                    $("#contact").hide(1000);
-                    $("#customer_contact").hide(1000);
-                    $(".order").hide(1000);
-
+                    
 
                     }
 
@@ -82,8 +83,8 @@ $(document).ready(function(){
                                                'customer_contact' : customer_contact
                                              }
                                 var myJSON = JSON.stringify(order_details);
-                                alert("order_details" + myJSON);
-                                alert("Your Order placed !");
+                                
+                                
                                 var order_url = "http://192.168.99.100:5000/order"
 
                                 $.post(order_url , myJSON , function(result){
@@ -98,8 +99,10 @@ $(document).ready(function(){
                                    $("#customer_contact").hide(1000);
 
                                    $(".order").hide(1000);
+				   alert("Your Order placed !");	
                                    var response = result.response
-                                   $(".response").append( response );
+				   alert(response);
+                                   $(".response").append( response ).show(1000);
                                 });
 
 
