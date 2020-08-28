@@ -54,7 +54,7 @@ def logincheck():
     if (status == "homechef"):
         return render_template('homechef-dashboard.html')
     elif(status == "customer"):
-        return redirect("http://192.168.99.100:5000/restclient", code=302)
+        return redirect("http://localhost:5000/restclient", code=302)
 
 
     else:
@@ -142,17 +142,25 @@ def place_order():
 
             current_availability = helper.place_order(chef_name ,quantity )
             print(current_availability)
-
-            print("create a order_details database and table")
-            helper.create_database_order_details()
-            status = helper.create_table_order_details()
-            print(status)
-            if(status == "success"):
-                helper.insert_order_details(chef_name,customer_name,customer_contact,address ,dish, quantity)
+            if(current_availability >= 0 ):
+                status="success"
+                print("create a order_detai5ls database and table")
+                helper.create_database_order_details()
+                status1 = helper.create_table_order_details()
+                print(status1)
+                if(status1 == "success"):
+                    helper.insert_order_details(chef_name,customer_name,customer_contact,address ,dish, quantity)
+                else:
+                    return jsonify(status='Failed to save the order details', code=400)
             else:
-                return jsonify(status='Failed to save the order details', code=400)
+                status= "failed"
 
-            return jsonify(response = "thank you , your order placed!" )
+        if (status =="success"):
+            return jsonify(response='thank you , your order placed!')
+        else:
+            return jsonify(response='sorry orders closed')
+
+
 
     except Exception as exception:
         return jsonify(status=exception.args[0], code=500)
