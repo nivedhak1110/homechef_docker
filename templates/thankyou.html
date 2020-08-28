@@ -8,7 +8,7 @@
 $(document).ready(function(){
             $("#orders").hide(10);
             $(".back").hide(10);
-            $.getJSON("http://localhost:5000/test", function(result){
+            $.getJSON("http://192.168.99.100:5000/test", function(result){
 
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
@@ -20,7 +20,7 @@ $(document).ready(function(){
                     $('.chefbutton').click(function(e) {
                             var name = $(this).data('value');
                             alert(name);
-                            var url = "http://localhost:5000/get/ordercustomer/"+ name
+                            var url = "http://192.168.99.100:5000/get/ordercustomer/"+ name
                             alert(" Dish URL" + url);
                             $("#ID").hide(1000);
                             $("#heading").hide(10);
@@ -156,7 +156,7 @@ $(document).ready(function(){
                  <p id="ID"></p>
 
              </div>
-             <a href="http://localhost:5000/check_orders" class="back">‹</a>
+             <a href="http://192.168.99.100:5000/check_orders" class="back">‹</a>
         <center>
         <p  id="customer_order_details"></p>
         <p class ="response" style="font-family: 'Ubuntu', sans-serif;"></p>
