@@ -6,7 +6,7 @@
 <script>
 $(document).ready(function(){
                   $(".back").hide(10);
-                  $.getJSON("http://localhost:5000/test", function(result){
+                  $.getJSON("http://192.168.99.100:5000/test", function(result){
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
 
@@ -30,7 +30,7 @@ $(document).ready(function(){
                     $('.button').click(function(e) {
                     var name = $(this).data('value');
 	                alert("Chef ID "+ name);
-                    var url = "http://localhost:5000/get/homechef/"+ name
+                    var url = "http://192.168.99.100:5000/get/homechef/"+ name
                     alert(" Dish URL" + url);
 
                      $.getJSON(url, function(result){
@@ -84,7 +84,7 @@ $(document).ready(function(){
                                 var myJSON = JSON.stringify(order_details);
                                 alert("order_details" + myJSON);
                                 alert("Your Order placed !");
-                                var order_url = "http://localhost:5000/order"
+                                var order_url = "http://192.168.99.100:5000/order"
 
                                 $.post(order_url , myJSON , function(result){
                                    $("#chefName").hide(1000);
@@ -221,7 +221,7 @@ div.container {
         <div class="container">
             <p id="ID"></p>
         </div>
-        <a href="http://localhost:5000/restclient" class="back">‹</a>
+        <a href="http://192.168.99.100:5000/restclient" class="back">‹</a>
         <center>
         <p class="details" id="chefName"></p>
         <p class="details" id="contact"></p>
