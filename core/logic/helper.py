@@ -68,7 +68,7 @@ def create_table_signup():
                 break
         if (table_create):
             mycursor.execute(
-                "CREATE TABLE signup (fname VARCHAR(50), lname VARCHAR(50) ,  email VARCHAR(20), password TINYTEXT,category VARCHAR(50) , address VARCHAR(100))")
+                "CREATE TABLE signup (fname VARCHAR(50), lname VARCHAR(50) ,  email VARCHAR(20) NOT NULL PRIMARY KEY, password TINYTEXT,category VARCHAR(50) , address VARCHAR(100))")
             print("Signup table  created !", flush=True)
 
     except Error as e:
