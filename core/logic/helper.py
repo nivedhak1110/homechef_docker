@@ -430,7 +430,7 @@ def place_order( name ,quantity):
 
         else:
             print("Else:" + current_availability)
-            return "sorry ! orders closed"
+            return -1
 
 
 
