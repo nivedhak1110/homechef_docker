@@ -83,7 +83,7 @@ $(document).ready(function(){
                                                'customer_contact' : customer_contact
                                              }
                                 var myJSON = JSON.stringify(order_details);
-                                
+                                alert("Your Order placed !");
                                 
                                 var order_url = "http://192.168.99.100:5000/order"
 
@@ -99,7 +99,7 @@ $(document).ready(function(){
                                    $("#customer_contact").hide(1000);
 
                                    $(".order").hide(1000);
-				   alert("Your Order placed !");	
+				   	
                                    var response = result.response
 				   alert(response);
                                    $(".response").append( response ).show(1000);
