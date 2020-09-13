@@ -6,8 +6,8 @@
     <style type="text/css">
     body {
         background:url(https://media.gettyimages.com/photos/this-smells-so-delicious-picture-id1082202128?s=2048x2048);
-
-        background-size: cover;
+        background-position: center;
+		background-size: cover;
 
         font-family: 'Ubuntu', sans-serif;
 
@@ -102,11 +102,9 @@
 	<div class="main">
         <p class="homechef" align="center" >Welcome HomeChef!</p>
 
-
-	<input class="Details" type="text" id="ID" name="ID"  placeholder=" ID"  required>
+	<input class="Details" type="text" id="user_ID" name="user_ID"  placeholder="Enter your user ID"  required>
 
 	<input class="Details" type="text" id="chef" name="chef" placeholder="chef name"  required>
-
 
 	<input class="Details" type="date" id="date" name="date" placeholder="Date"  required>
 
@@ -140,6 +138,10 @@
 		<button class="submit"  id="login_as_ customer" type="submit" formaction="/restclient" formmethod="post">  login </button>
 	</div>
 </form>
+
+
+
+
 
 </body>
 
