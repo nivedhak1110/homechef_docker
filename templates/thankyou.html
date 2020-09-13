@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>thankyou</title>
+    <title>order check</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -13,34 +13,59 @@ $(document).ready(function(){
                     var data = result.name;
                     for (var i = 0; i < result.name.length ; i++) {
 
-                        var chefbuttons = $('<button class="chefbutton"  data-value='+ data[i] +' > '+ data[i] + ' </button>' + '<br>'+ '<br>')
+                        var chefbuttons = $('<button class="chefbutton"  data-value="'+ data[i] +'" > '+ data[i] + ' </button>' + '<br>'+ '<br>')
                            chefbuttons.appendTo('#ID');
                     }
 
                     $('.chefbutton').click(function(e) {
                             var name = $(this).data('value');
-                            alert(name);
-                            var url = "http://192.168.99.100:5000/get/ordercustomer/"+ name
-                            alert(" Dish URL" + url);
+
+                            var url = "http://192.168.99.100:5000/get/dishname/"+ name
+
                             $("#ID").hide(1000);
                             $("#heading").hide(10);
                             $(".back").show(1000);
-                            $("#orders").show(1000);
-                            $.getJSON(url, function(response){
-                                    var customer_order_details = response.customer_order_details;
-
-                                     alert(customer_order_details);
-                                     alert( response.customer_order_details.length);
-
-                                     for (var i = 0; i < response.customer_order_details.length ; i++) {
-
-                                             var customer_orders = $('<p class="details"  data-order='+customer_order_details[i] +' > '+customer_order_details[i] + ' </p>' + '<br>'+ '<br>')
-                                              customer_orders.appendTo('#customer_order_details');
-                                         }
+                            $.getJSON(url, function(result){
 
 
+                                                var dish_names = result.dishnames
+
+
+                                                for (var i = 0; i < result.dishnames.length ; i++) {
+
+                                                        var dishbuttons = $('<button class="dishbutton"  data-dish="'+ dish_names[i] +'" > '+ dish_names[i] + ' </button>' + '<br>'+ '<br>')
+                                                         dishbuttons.appendTo('#dishnames');
+
+                                                }
+                                                $('.dishbutton').click(function(e) {
+
+                                                         $("#dishnames").hide(1000);
+                                                         $("#orders").show(1000);
+                                                         var chef_ID = result.chef_ID
+                                                         var dishname = $(this).data('dish');
+                                                         var dish_url = "http://192.168.99.100:5000/customer_order_details"
+                                                         var myJSON = {
+                                                                'chef_ID': chef_ID ,
+                                                                'dish': dishname
+                                                         }
+                                                         var dish_details = JSON.stringify( myJSON)
+
+                                                         $.post( dish_url, dish_details , function(response){
+                                                                var customer_order_details = response.customer_order_details;
+
+                                                                for (var i = 0; i < response.customer_order_details.length ; i++) {
+
+                                                                        var customer_orders = $('<p class="details"  data-order='+customer_order_details[i] +' > '+customer_order_details[i] + ' </p>' + '<br>'+ '<br>')
+                                                                        customer_orders.appendTo('#customer_order_details');
+                                                                }
+
+                                                         });
+
+                                                });
 
                             });
+
+
 
 
 
@@ -64,8 +89,14 @@ $(document).ready(function(){
 </script>
 <style>
 
+    body {
+        background:url("https://image.freepik.com/free-photo/flat-lay-tasty-food-composition_23-2148601666.jpg");
+
+        font-family: 'Ubuntu', sans-serif;
+    }
     div.chef {
-    width: 70%;
+    width: 50%;
+   background-color: #FFFFFF;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-align: center;
     }
@@ -94,8 +125,26 @@ $(document).ready(function(){
         box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
         }
 
+    .dishbutton
+    {
+        cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+        background: linear-gradient(to right, #FFA07A, #DC143C);
+        border: 0;
+        width:200px;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+
+    }
+
     .details{
-        width: 80%;
+        width: 60%;
     color: rgb(38, 50, 56);
     font-weight: 700;
     font-size: 14px;
@@ -148,20 +197,20 @@ $(document).ready(function(){
 <body>
 <center>
 <div align="center" class="chef" id="chef">
-        <img alt="chef" src="https://media.gettyimages.com/photos/tracking-coffee-shop-operations-on-his-tablet-picture-id857357056?s=2048x2048"
-             style="width:100%; " >
+
+            <a href="http://192.168.99.100:5000/check_orders" class="back">‹</a>
             <div class="container">
                  <p class="heading" id="heading" align="center" > click on your ID to check your orders </p>
                  <p class="heading" id="orders" align="center" > your orders! </p>
                  <p id="ID"></p>
-
+                 <p id = "dishnames"></p>
              </div>
-             <a href="http://192.168.99.100:5000/check_orders" class="back">‹</a>
+
         <center>
         <p  id="customer_order_details"></p>
         <p class ="response" style="font-family: 'Ubuntu', sans-serif;"></p>
         </center>
-
+</div>
 </center>
 </body>
 </html>
