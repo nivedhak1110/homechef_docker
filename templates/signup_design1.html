@@ -3,10 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <title>SignUP</title>
-     
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+                    var username_state = false;
+                    $('#username').on('blur', function(){
+                        var username = $('#username').val();
+
+
+                        var url = "http://192.168.99.100:5000/usernamecheck"
+                        if (username == '') {
+                                username_state = false;
+                                return;
+                        }
+                        $.ajax({
+                            url: url,
+                            type: 'post',
+                            data: {
+                                'username' : username,
+                            },
+
+                            success: function(response){
+                                status = response.status;
+
+                              if (status == 'taken' ) {
+                                username_state = false;
+                                alert("Sorry... Username already taken! enter new username");
+                              }
+                              else if (status == 'not_taken') {
+                                username_state = true;
+                                alert("user name ok !");
+                              }
+                            }
+                        });
+                    });
+
+
+                    $('#signup').on('click', function(){
+                            var name = $('#name').val();
+                            var username = $('#username').val();
+                            var email = $('#email').val();
+                            var password = $('#password').val();
+                            var category = $('#category').val();
+                            var address = $('#add').val();
+                            var url = "http://192.168.99.100:5000/signupsave"
+                            if (username_state == false ) {
+                                    alert('Fix the  errors in the form first');
+                            }
+                            else{
+                              // proceed with form submission
+                              $.ajax({
+                                url: url,
+                                type: 'post',
+                                data: {
+
+                                    'name' : name,
+                                    'username' : username,
+                                    'email' : email,
+                                    'password' : password,
+                                    'category' : category,
+                                    'address' : address,
+
+                                },
+
+                                success: function(response) {
+                                    status = response.status;
+                                    alert(status);
+                                    if (status == 'success' ) {
+                                        alert('user saved');
+                                        window.location.replace('/login');
+                                    }
+                                    else if (status == 'failed') {
+                                        alert('unable to save user');
+                                        window.location.replace('/signup');
+                                    }
+
+
+                                }
+                               });
+
+
+                            }
+                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+</script>
+
+
     <style type="text/css">
     body {
-        background:url(https://media.gettyimages.com/photos/cooking-nd-seasoning-spices-border-on-black-slate-background-picture-id953140058?s=2048x2048);
+        background:url(https://media.gettyimages.com/photos/flat-lay-colourful-vegan-food-slice-in-antique-metal-spoon-still-life-picture-id851999772?s=2048x2048);
         background-size: cover;
         font-family: 'Ubuntu', sans-serif;
     	}
@@ -47,8 +158,6 @@
     font-family: 'Ubuntu', sans-serif;
     }
 
-    
-    
 
     
     .ID:focus {
@@ -75,11 +184,13 @@
 
    	  }
  
-        @media (max-width: 600px) {
+    @media (max-width: 600px) {
 
-        .main {
-            border-radius: 0px;
-        }
+    .main {
+        border-radius: 0px;
+    }
+
+
         
     </style>    
     
@@ -94,13 +205,19 @@
 
   <form>
 
+
+
+
   <div class="main">
+
+
   <p class="details" align="center">Register Your details</p>
 
-  <input  class="UD" type="text" id="fname" name="fname" placeholder="First name" required >
+  <input  class="UD" type="text" id="name" name="name" placeholder="Name" required >
 
-  <input  class="UD" type="text" id="lname" name="lname" placeholder="Last name" required >
-  <input class="UD" type="email" id="email" name="email" placeholder="Email Id"  required  >
+  <input  class="UD" type="text" id="username" name="username" placeholder="user ID" required >
+
+  <input class="UD" type="email" id="email" name="email" placeholder="Email ID"  required  >
 
   <input class="UD" type="password" id="password" name="password" placeholder="Password" required ><br>
 
@@ -112,11 +229,11 @@
 
   <input class="UD" type="text" id="add" name="add" placeholder="Address" required  >
           <input class="submit" type="reset"><br><br>
-  <button  class="submit" type="submit" formaction="/save" formmethod="post">Signup</button>
-
-   </form>
+  <button  class="submit" type="submit" id = "signup" >Signup</button>
+  </div>
+  </form>
     
-   </div>
+
 
 
 </body>
