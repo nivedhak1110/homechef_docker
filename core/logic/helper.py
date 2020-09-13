@@ -5,9 +5,9 @@ from mysql.connector import Error
 
 try:
     mydb = mysql.connector.connect(
-        host="localhost",
+        host="mysql",
         user="root",
-        passwd=""
+        passwd="mypassword"
         # database="signup"
     )
 
@@ -44,9 +44,9 @@ def create_database_myhomechef():
 def create_table_signup():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd="")
+            passwd="mypassword")
 
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
@@ -76,9 +76,9 @@ def create_table_signup():
 def username_check(username):
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd="")
+            passwd="mypassword")
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
         sql = "select count(user_ID)  from signup where   user_ID = '{username}' ".format(username=username)
@@ -98,9 +98,9 @@ def username_check(username):
 def read_input(request):
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         email_id = request.form.get('ID')
@@ -120,14 +120,13 @@ def read_input(request):
 
 
 ##verify login details
-
-
 def login_verify(email_id, passwd):
+    
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
 
         )
         mycursor = mydb.cursor()
@@ -175,9 +174,9 @@ def login_verify(email_id, passwd):
 def print_all():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         print("Printing all signup data")
@@ -196,9 +195,9 @@ def print_all():
 def signup_insert(name, user_ID, email, password, category, address):
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         mycursor = mydb.cursor()
@@ -218,9 +217,9 @@ def signup_insert(name, user_ID, email, password, category, address):
 def create_table_homechef():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd="")
+            passwd="mypassword")
 
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
@@ -251,9 +250,9 @@ def get_input_homechef(request):
     try:
 
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
         ID = request.form.get('user_ID')
         chef = request.form.get('chef')
@@ -274,9 +273,9 @@ def get_input_homechef(request):
 def homechef_insert(ID, chef, date, dish, cost, availability, location, contact):
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         mycursor = mydb.cursor()
@@ -296,9 +295,9 @@ def homechef_insert(ID, chef, date, dish, cost, availability, location, contact)
 def print_all_homechef():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         print("Printing all homechef data")
@@ -318,9 +317,9 @@ def print_homechef_ID(request):
     try:
 
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         mycursor = mydb.cursor()
@@ -340,9 +339,9 @@ def dish_names(name):
     try:
 
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
@@ -364,9 +363,9 @@ def dish_details(chef_ID, dish):
     try:
 
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
@@ -390,9 +389,9 @@ def place_order(chef_ID, quantity, dish):
     try:
 
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
         print("inside helper place order")
         mycursor = mydb.cursor(buffered=True)
@@ -432,9 +431,9 @@ def place_order(chef_ID, quantity, dish):
 def create_table_order_details():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd="")
+            passwd="mypassword")
 
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef ")
@@ -465,9 +464,9 @@ def create_table_order_details():
 def insert_order_details(chef_ID, chef_name, customer_name, customer_contact, address, dish, quantity):
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd="")
+            passwd="mypassword")
 
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
@@ -487,9 +486,9 @@ def insert_order_details(chef_ID, chef_name, customer_name, customer_contact, ad
 def print_all_order_details():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
 
         print("Printing all order_details ")
@@ -509,9 +508,9 @@ def customer_order_details(chef_ID, dish):
     try:
 
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="mysql",
             user="root",
-            passwd=""
+            passwd="mypassword"
         )
         mycursor = mydb.cursor()
         mycursor.execute("USE myhomechef")
