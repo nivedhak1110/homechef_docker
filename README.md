@@ -4,6 +4,8 @@ This application provides the functionality for customers supply necessary detai
 
 
 HOMECHEF
+
+
  • Create an account. 
  
  
@@ -19,6 +21,8 @@ HOMECHEF
  •check the orders that placed.
  
  CUSTOMER
+ 
+ 
  • Create an account.  
  
  
