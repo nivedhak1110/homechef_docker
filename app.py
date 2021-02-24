@@ -53,7 +53,7 @@ def save():
         category = request.form['category']
         address = request.form['address']
         status = helper.signup_insert(name,username,email,password,category,address)
-        print(status)
+        
         return jsonify(status=status)
 
 
