@@ -101,7 +101,7 @@ def homechef_save():
 
 
     if (status == "success"):
-        return render_template('thankyou.html')
+        return render_template('homechef-dashboard.html')
     else:
         return jsonify(status='Failed to save the details, try Signup Again', code=400)
 # render customer dashboard
@@ -125,7 +125,7 @@ def get_dishname(name):
         print(name)
 
         dish_names = helper.dish_names(name)
-        print(dish_names)
+        
         return jsonify(chef_ID=name, dishnames =  dish_names )
 
 
@@ -142,15 +142,14 @@ def get_dish():
            if request.method == 'POST':
                print(request)
                dish_details = request.get_json(force=True)
-               print(dish_details)
+               
                chef_ID = dish_details['chef_ID']
-               print(chef_ID)
+               
                dish = dish_details['dish']
-               print(dish)
+               
                dish_details = helper.dish_details(chef_ID,dish)
-               print(dish_details)
+               
                chef_name = dish_details[0][0]
-               print(chef_name)
                dish = dish_details[0][1]
                cost = dish_details[0][2]
                availability = dish_details[0][3]
@@ -221,12 +220,7 @@ def get_customer_order_details():
             chef_ID = dish_details['chef_ID']
             print(chef_ID)
             dish = dish_details['dish']
-            print(dish)
-
             customer_order_details = helper.customer_order_details(chef_ID,dish)
-
-            print(customer_order_details)
-
             return jsonify(customer_order_details = customer_order_details)
     except Exception as exception:
         return jsonify(status=exception.args[0], code=500)
