@@ -1,6 +1,9 @@
 # Home chef Application
+![Screenshot (69)](https://user-images.githubusercontent.com/62648927/118856231-599e2700-b8f4-11eb-93e8-1497ad71ae15.png)
+
 # Online Food Ordering System
 This application provides the functionality for customers supply necessary details and place their order . Users of the system are  namely homechef, customers are  provided the following functionality:
+
 
 
 HOMECHEF
